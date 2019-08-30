@@ -59,3 +59,13 @@ typings/
 
 # next.js build output
 .next
+
+# some context specific ignores
+.DS_store
+.cache/
+
+.tern-port
+.tern-project
+
+dist/
+dist_test/

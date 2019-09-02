@@ -1,1 +1,3 @@
-This is [[https://fullstackopen.com/en/part1/introduction_to_react][part1a]] and [[https://fullstackopen.com/en/part1/javascript][part1b]] excerise to the [[https://fullstackopen.com][Full Stack Open]].
+#+TITLE: Exercise: CourseInfo
+
+These are the exercises for part [[https://fullstackopen.com/en/part1/introduction_to_react][1.1]] to [[https://fullstackopen.com/en/part1/javascript][1.5]] of the [[https://fullstackopen.com][Full Stack Open]].

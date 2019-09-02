@@ -1,0 +1,3 @@
+#+TITLE: FullStackOpen
+
+This is my attempt at the [[https://fullstackopen.com/en/part1/javascript]['Full Stack Open']] course. Even though I am familiar with many of the concepts, I enjoy courses like this as they usually provide insights on concepts I might have missed.

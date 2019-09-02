@@ -1,1 +1,0 @@
-This is part 1 to the [[https://fullstackopen.com][Full Stack Open]] course found [[https://fullstackopen.com/en/part1][here]].

@@ -1,1 +1,1 @@
-This is the first excerise to the [[https://fullstackopen.com][Full Stack Open]] course found [[https://fullstackopen.com/en/part1/introduction_to_react][here]].
+This is [[https://fullstackopen.com/en/part1/introduction_to_react][part1a]] and [[https://fullstackopen.com/en/part1/javascript][part1b]] excerise to the [[https://fullstackopen.com][Full Stack Open]].

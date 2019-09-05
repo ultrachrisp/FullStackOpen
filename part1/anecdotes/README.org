@@ -1,3 +1,4 @@
 #+TITLE: Exercise: Anecdotes
 
-These are the exercises for part [[https://fullstackopen.com/en/part1/a_more_complex_state_debugging_react_apps][1.11 to 1.14]] of the [[https://fullstackopen.com][Full Stack Open]].
+These are the exercises for part [[https://fullstackopen.com/en/part1/a_more_complex_state_debugging_react_apps][1.12 to 1.14]] of the [[https://fullstackopen.com][Full Stack Open]].
+

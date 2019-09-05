@@ -46,7 +46,7 @@ const App = () => {
 
     return (
         <div>
-            <h2>anna palautetta</h2>
+            <h2>give feedback</h2>
             <button onClick={() => setGood(good + 1)}>good</button>
             <button onClick={() => setNeutral(neutral + 1)}>neutral</button>
             <button onClick={() => setBad(bad + 1)}>bad</button>

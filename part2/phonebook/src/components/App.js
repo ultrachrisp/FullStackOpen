@@ -15,7 +15,8 @@ const App = () => {
             .getAll()
             .then(initialPersons => {
                 setPersons(initialPersons);
-            });
+            })
+            .catch(error => console.log(error));
     };
 
     useEffect(hook, []);
@@ -29,14 +30,38 @@ const App = () => {
         };
 
         if(persons.some(elem => elem.name === newEntry.name)){
-            alert(`${newEntry.name} is already added to phonebook`);
-        }
-        else if(persons.some(elem => elem.number === newEntry.number)){
-            alert(`${newEntry.number} is already added to phonebook`);
+            // alert(`${newEntry.name} is already added to phonebook`);
+            if(window.confirm(`${newEntry.name} is already added to phonebook, replace the old number with a new one?`)){
+                const targetPerson = persons.find(person => person.name === newEntry.name);
+                personsService
+                    .update(targetPerson.id, newEntry)
+                    .then(response => {
+                        setPersons(persons.map(person => person.id !== targetPerson.id? person: response));
+                        setNewName('');
+                        setNewNumber('');
+                    });
+            }
         } else {
-            setPersons(persons.concat(newEntry));
-            setNewName('');
-            setNewNumber('');
+            personsService
+                .create(newEntry)
+                .then(response => {
+                    setPersons(persons.concat(response));
+                    setNewName('');
+                    setNewNumber('');}
+                     );
+        }
+    };
+
+    const deleteName = (evt) => {
+        const targetPerson = persons.find(person => person.name === evt.target.value);
+
+        if(window.confirm(`Delete ${evt.target.value}`)){
+            personsService
+                .remove(targetPerson.id)
+                .then(returned => {
+                    setPersons(persons.filter(person => person.id !== returned.id));
+                })
+                .catch(error => console.log(error));
         }
     };
 
@@ -62,7 +87,8 @@ const App = () => {
             <h3>Numbers</h3>
             <Persons
                 persons={persons}
-                filter={filter} />
+                filter={filter}
+                action={deleteName} />
         </>
     );
 };

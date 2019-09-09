@@ -1,9 +1,12 @@
 import React from 'react';
 
-const Results = ({filter, countries}) => {
+const Results = ({filter, countries, setCountry}) => {
     const match = countries.filter(country => country.name.toLowerCase().includes(filter.toLowerCase()));
     const numOfResults = match.length;
-    console.log(match);
+
+    const showCountryDetails = (evt) => {
+        setCountry(match.filter(country => country.name === evt.target.value)[0]);
+    };
     
     if(filter === ""){
         return <></>;
@@ -14,23 +17,21 @@ const Results = ({filter, countries}) => {
     } else if(numOfResults > 1 && numOfResults <= 9){
         return (
             <>
-            { match.map(country => <div key={country.alpha3Code}>{country.name}</div>) }
+                { match.map(country =>
+                            <div
+                                key={country.alpha3Code}>
+                                {country.name}
+                                <button
+                                    onClick={showCountryDetails}
+                                    value={country.name}> show </button>
+                            </div>) }
             </>
         );
     } else {
-        const country = match[0];
-        return (
-            <>
-                <h2>{country.name}</h2>
-                <div>Capital: {country.capital}</div>
-                <div>Population: {country.population}</div>
-                <h3>Languages</h3>
-                <ul>
-                    {country.languages.map(language => <li key={language.iso639_2}>{language.name}</li>)}
-                </ul>
-                <img src={country.flag} width="100px"/>
-            </>
-        );
+
+        setCountry(match[0]);
+        
+        return <></>;
     }
 };
 

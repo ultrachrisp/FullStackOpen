@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import Filter from './Filter';
 import Results from './Results';
+import Country from './Country';
 import axios from 'axios';
 
 const App = () => {
     const [ filter, setFilter ] = useState('');
     const [ countries, setCountries ] = useState([]);
+    const [ country, setCountry] = useState({});
 
     const onFilterChange = (evt) => setFilter(evt.target.value);
 
@@ -26,7 +28,10 @@ const App = () => {
                 onFilterChange={onFilterChange} />
             <Results
                 filter={filter}
-                countries={countries}/>
+                countries={countries}
+                setCountry={setCountry} />
+            <Country
+                country={country}/>
         </>
     );
 };

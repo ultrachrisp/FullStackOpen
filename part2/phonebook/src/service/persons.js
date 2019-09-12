@@ -21,7 +21,7 @@ const update = (id, newObject) => {
 
 const remove = (id) => {
     return axios
-        .put(`${baseUrl}/${id}`)
+        .delete(`${baseUrl}/${id}`)
         .then(response => response.data);
 };
 

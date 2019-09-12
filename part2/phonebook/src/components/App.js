@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Filter from './Filter';
 import PersonForm from './PersonForm';
 import Persons from './Persons';
+import Notification from './Notification';
 import personsService from '../service/persons';
 
 const App = () => {
@@ -9,6 +10,7 @@ const App = () => {
     const [ newName, setNewName ] = useState('');
     const [ newNumber, setNewNumber ] = useState('');
     const [ filter, setFilter ] = useState('');
+    const [ errorMessage, setErrorMessage ] = useState({type:'', msg:null});
 
     const hook = () => {
         personsService
@@ -20,6 +22,11 @@ const App = () => {
     };
 
     useEffect(hook, []);
+
+    const showMessage = ({type, msg}) =>{
+        setErrorMessage({type, msg});
+        setTimeout(() => { setErrorMessage({msg:null}); }, 5000);
+    };
     
     const addName = (evt) => {
         evt.preventDefault();
@@ -39,6 +46,7 @@ const App = () => {
                         setPersons(persons.map(person => person.id !== targetPerson.id? person: response));
                         setNewName('');
                         setNewNumber('');
+                        showMessage({type:'confirm', msg:`Updated details for ${response.name}`});
                     });
             }
         } else {
@@ -47,8 +55,9 @@ const App = () => {
                 .then(response => {
                     setPersons(persons.concat(response));
                     setNewName('');
-                    setNewNumber('');}
-                     );
+                    setNewNumber('');
+                    showMessage({type:'confirm', msg:`Successfully added ${response.name} to phonebookq`});
+                });
         }
     };
 
@@ -59,9 +68,12 @@ const App = () => {
             personsService
                 .remove(targetPerson.id)
                 .then(returned => {
-                    setPersons(persons.filter(person => person.id !== returned.id));
+                    setPersons(persons.filter(person => person.id !== targetPerson.id));
+                    showMessage({type:'confirm', msg:`Removed ${targetPerson.name} from phonebook`});
                 })
-                .catch(error => console.log(error));
+                .catch(error => {
+                    showMessage({type:'error', msg:`Information of ${targetPerson.name} has already been removed from server`});
+                });
         }
     };
 
@@ -72,6 +84,7 @@ const App = () => {
     return (
         <>
             <h2>Phonebook</h2>
+            <Notification message={errorMessage} />
             <Filter
                 filter={filter}
                 onFilterChange={onFilterChange} />

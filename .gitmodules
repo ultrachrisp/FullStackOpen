@@ -1,0 +1,3 @@
+[submodule "part3/phonebook-server"]
+	path = part3/phonebook-server
+	url = git@github.com:ultrachrisp/FullStackOpen_server.git

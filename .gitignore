@@ -88,3 +88,5 @@ yarn-error.log*
 
 dist/
 dist_test/
+
+build/

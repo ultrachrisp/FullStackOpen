@@ -47,7 +47,8 @@ const App = () => {
                         setNewName('');
                         setNewNumber('');
                         showMessage({type:'confirm', msg:`Updated details for ${response.name}`});
-                    });
+                    })
+                    .catch(error => console.log(error) );
             }
         } else {
             personsService
@@ -57,6 +58,9 @@ const App = () => {
                     setNewName('');
                     setNewNumber('');
                     showMessage({type:'confirm', msg:`Successfully added ${response.name} to phonebookq`});
+                })
+                .catch(error => {
+                    showMessage({type:'error', msg:`${error.response.data.error}`});
                 });
         }
     };
@@ -71,9 +75,9 @@ const App = () => {
                     setPersons(persons.filter(person => person.id !== targetPerson.id));
                     showMessage({type:'confirm', msg:`Removed ${targetPerson.name} from phonebook`});
                 })
-                .catch(error => {
-                    showMessage({type:'error', msg:`Information of ${targetPerson.name} has already been removed from server`});
-                });
+                .catch(error => 
+                       showMessage({type:'error', msg:`Information of ${targetPerson.name} has already been removed from server`})
+                      );
         }
     };
 

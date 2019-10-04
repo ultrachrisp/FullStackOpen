@@ -92,9 +92,9 @@ describe('favoriteBlog', () => {
 
   test('when list only has one entry', () => {
     const expected = {
-      title: listWithOneBlog[0].title,
-      author: listWithOneBlog[0].author,
-      likes: listWithOneBlog[0].likes
+      title: 'Go To Statement Considered Harmful',
+      author: 'Edsger W. Dijkstra',
+      likes: 5
     };
     
     const result = listHelper.favoriteBlog(listWithOneBlog);
@@ -103,9 +103,9 @@ describe('favoriteBlog', () => {
 
   test('of a bigger list', () => {
     const expected = {
-      title: blogs[2].title,
-      author: blogs[2].author,
-      likes: blogs[2].likes
+      title: "Canonical string reduction",
+      author: 'Edsger W. Dijkstra',
+      likes: 12
     };
     
     const result = listHelper.favoriteBlog(blogs);
@@ -121,7 +121,7 @@ describe('mostBlogs', () => {
 
   test('when list only has one entry', () => {
     const expected = {
-      author: listWithOneBlog[0].author,
+      author: 'Edsger W. Dijkstra',
       blogs: 1
     };
     
@@ -131,11 +131,38 @@ describe('mostBlogs', () => {
 
   test('of a bigger list', () => {
     const expected = {
-      author: blogs[3].author,
+      author: "Robert C. Martin",
       blogs: 3
     };
     
     const result = listHelper.mostBlogs(blogs);
+    expect(result).toEqual(expected);
+  });
+});
+
+describe('mostLikes', () => {
+  test('of empty list is undefined', () => {
+    const result = listHelper.mostLikes([]);
+    expect(result).toBe(undefined);
+  });
+
+  test('when list only has one entry', () => {
+    const expected = {
+      author: 'Edsger W. Dijkstra',
+      likes: 5
+    };
+    
+    const result = listHelper.mostLikes(listWithOneBlog);
+    expect(result).toEqual(expected);
+  });
+
+  test('of a bigger list', () => {
+    const expected = {
+      author: "Edsger W. Dijkstra",
+      likes: 17
+    };
+    
+    const result = listHelper.mostLikes(blogs);
     expect(result).toEqual(expected);
   });
 });

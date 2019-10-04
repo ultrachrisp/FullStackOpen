@@ -34,9 +34,27 @@ const mostBlogs = (blogs) => {
   };
 };
 
+const mostLikes = (blogs) => {
+  if(blogs.length === 0) return undefined;
+  
+  const result = [...blogs.reduce((mp, blog) => {
+    if (!mp.has(blog.author)) mp.set(blog.author, { author: blog.author, likes: 0 });
+    mp.get(blog.author).likes += blog.likes;
+    return mp;
+  }, new Map).values()];
+
+  const max = result.reduce((max, result) => (max.likes > result.likes)? max : result);
+  
+  return {
+    author: max.author,
+    likes: max.likes
+  };
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
-  mostBlogs
+  mostBlogs,
+  mostLikes
 };

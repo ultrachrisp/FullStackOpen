@@ -112,3 +112,30 @@ describe('favoriteBlog', () => {
     expect(result).toEqual(expected);
   });
 });
+
+describe('mostBlogs', () => {
+  test('of empty list is undefined', () => {
+    const result = listHelper.mostBlogs([]);
+    expect(result).toBe(undefined);
+  });
+
+  test('when list only has one entry', () => {
+    const expected = {
+      author: listWithOneBlog[0].author,
+      blogs: 1
+    };
+    
+    const result = listHelper.mostBlogs(listWithOneBlog);
+    expect(result).toEqual(expected);
+  });
+
+  test('of a bigger list', () => {
+    const expected = {
+      author: blogs[3].author,
+      blogs: 3
+    };
+    
+    const result = listHelper.mostBlogs(blogs);
+    expect(result).toEqual(expected);
+  });
+});

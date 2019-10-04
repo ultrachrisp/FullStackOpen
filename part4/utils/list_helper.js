@@ -17,6 +17,15 @@ const favoriteBlog = (blogs) => {
   };
 };
 
+// Possible DRY solution, but it doesn't help readability
+// const reduceEntries = (list, param1, param2) => {
+//     return [...list.reduce((mp, blog) => {
+//       if (!mp.has(blog[param1])) mp.set(blog[param1], {[param1]: blog[param1], [param2]:0});
+//     mp.get(blog.author)[param2]++;
+//     return mp;
+//   }, new Map).values()];
+// };
+
 const mostBlogs = (blogs) => {
   if(blogs.length === 0) return undefined;
   
@@ -25,6 +34,7 @@ const mostBlogs = (blogs) => {
     mp.get(blog.author).count++;
     return mp;
   }, new Map).values()];
+  // const result = reduceEntries(blogs, 'author', 'count');
 
   const max = result.reduce((max, result) => (max.count > result.count)? max : result);
   

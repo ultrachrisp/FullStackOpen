@@ -5,13 +5,14 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const blogRouter = require('./controllers/blogs');
 const middleware = require('./utils/middleware');
+const logger = require('./utils/logger');
 
 mongoose.set('useFindAndModify', false);
-console.log('connecting to', config.MONGODB);
+logger.info('connecting to', config.MONGODB);
 
 mongoose.connect(config.MONGODB, {useNewUrlParser: true})
-    .then(() => console.log('connected to MongoDB') )
-    .catch(error => console.log('error connecting to MongoDB:', error.message) );
+    .then(() => logger.info('connected to MongoDB') )
+    .catch(error => logger.error('error connecting to MongoDB:', error.message) );
 
 const app = express();
 app.use(cors());

@@ -97,6 +97,31 @@ test('the first note is about HTTP methods', async () => {
   expect(response.body[0].url).toBe('https://reactpatterns.com/');
 });
 
+test('a valid blog can be added ', async () => {
+  const newBlog = {
+    _id: "5a422bc61b54a676234d19fc",
+    title: "Why Clojure",
+    author: "Robert C. Martin",
+    url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html",
+    likes: 2,
+    __v: 0
+  };
+
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const response = await api.get('/api/blogs');
+  // console.log(response);
+
+  const contents = response.body.map(r => r.title);
+
+  expect(response.body.length).toBe(initialBlogs.length + 1);
+  expect(contents).toContain('Why Clojure');
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

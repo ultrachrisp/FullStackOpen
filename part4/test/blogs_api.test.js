@@ -8,23 +8,15 @@ const Blog = require('../models/blogs');
 beforeEach(async () => {
   await Blog.deleteMany({});
 
-  let blogObject = new Blog(helper.initialBlogs[0]);
-  await blogObject.save();
+  /* Async version, no guarantee the objects will be saved in the order given... harder to test then*/
+  // const blogObjects = helper.initialBlogs.map(blog => new Blog(blog));
+  // const promiseArray = blogObjects.map(blog => blog.save());
+  // await Promise.all(promiseArray);
 
-  blogObject = new Blog(helper.initialBlogs[1]);
-  await blogObject.save();
-
-  blogObject = new Blog(helper.initialBlogs[2]);
-  await blogObject.save();
-
-  blogObject = new Blog(helper.initialBlogs[3]);
-  await blogObject.save();
-
-  blogObject = new Blog(helper.initialBlogs[4]);
-  await blogObject.save();
-
-  blogObject = new Blog(helper.initialBlogs[5]);
-  await blogObject.save();
+  for (let blog of helper.initialBlogs){
+    let blogObject = new Blog(blog);
+    await blogObject.save();
+  }
 });
 
 test('notes are returned as json', async () => {
@@ -58,6 +50,21 @@ test('a valid blog can be added ', async () => {
   
   const contents = blogsAtEnd.map(n => n.title);
   expect(contents).toContain('Why Clojure');
+});
+
+test('blog without content is not added', async () => {
+  const newBlog = {
+    likes: 2
+  };
+
+  await api
+    .post('/api/notes')
+    .send(newBlog)
+    .expect(400);
+
+  const notesAtEnd = await helper.notesInDb();
+
+  expect(notesAtEnd.length).toBe(helper.initialNotes.length);
 });
 
 afterAll(() => {

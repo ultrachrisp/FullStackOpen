@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const supertest = require('supertest');
-const helper = require('./helper');
+const helper = require('./test_helper');
 const app = require('../app');
 const api = supertest(app);
 const Blog = require('../models/blogs');
@@ -47,18 +47,9 @@ test('the first note is about HTTP methods', async () => {
 });
 
 test('a valid blog can be added ', async () => {
-  const newBlog = {
-    _id: "5a422bc61b54a676234d19fc",
-    title: "Why Clojure",
-    author: "Robert C. Martin",
-    url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html",
-    likes: 2,
-    __v: 0
-  };
-
   await api
     .post('/api/blogs')
-    .send(newBlog)
+    .send(helper.singleBlog[0])
     .expect(201)
     .expect('Content-Type', /application\/json/);
 

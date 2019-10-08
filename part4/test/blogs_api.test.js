@@ -82,7 +82,7 @@ test('notes are returned as json', async () => {
     .get('/api/blogs')
     .expect(200)
     .expect('Content-Type', /application\/json/);
-}, 30000);
+});
 
 test('the number of  notes', async () => {
   const response = await api.get('/api/blogs');
@@ -92,6 +92,7 @@ test('the number of  notes', async () => {
 
 test('the first note is about HTTP methods', async () => {
   const response = await api.get('/api/blogs');
+  console.log(response.body[0]);
 
   expect(response.body[0].url).toBe('https://reactpatterns.com/');
 });

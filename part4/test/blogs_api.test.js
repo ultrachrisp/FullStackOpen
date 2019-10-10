@@ -58,13 +58,13 @@ test('blog without content is not added', async () => {
   };
 
   await api
-    .post('/api/notes')
+    .post('/api/blogs')
     .send(newBlog)
     .expect(400);
 
-  const notesAtEnd = await helper.notesInDb();
+  const blogsAtEnd = await helper.blogsInDb();
 
-  expect(notesAtEnd.length).toBe(helper.initialNotes.length);
+  expect(blogsAtEnd.length).toBe(helper.initialNotes.length);
 });
 
 afterAll(() => {

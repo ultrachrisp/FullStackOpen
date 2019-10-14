@@ -142,6 +142,23 @@ describe('deletion of a blog', () => {
   });
 });
 
+describe('updating of a blog', () => {
+  test('succeeds with status code of __ if valid', async () => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToUpdate = blogsAtStart[0];
+    const targetLike = blogToUpdate.likes;
+    blogToUpdate.likes = blogToUpdate.likes + 1;
+
+    await api
+      .put(`/api/blogs/${blogToUpdate.id}`)
+      .send(blogToUpdate)
+      .expect(200);
+    
+    const blogsAtEnd = await helper.blogsInDb();    
+    expect(targetLike + 1).toBe( blogsAtStart[0].likes );
+  });
+});
+
 afterAll(() => {
   mongoose.connection.close();
 });

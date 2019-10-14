@@ -6,7 +6,7 @@ const singleBlog = [
     title: "Why Clojure",
     author: "Robert C. Martin",
     url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html",
-    likes: 2,
+    // likes: 2,
     __v: 0
   }
 ];
@@ -49,7 +49,7 @@ const initialBlogs = [
     title: "TDD harms architecture",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
-    likes: 0,
+    // likes: 0,
     __v: 0
   },
   {

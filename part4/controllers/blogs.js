@@ -9,7 +9,7 @@ blogsRouter.get('/', async (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   const { body } = request;
 
-  if(!body.title || !body.author || !body.url || !body.likes){
+  if(!body.title || !body.author || !body.url){
       return response.status(400).send({ error: 'Fields are empty'});
   }
   

@@ -1,21 +1,25 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blogs');
 
-blogsRouter.get('/', async (request, response) => {
+blogsRouter.get('/', async (request, response, next) => {
   const blogs = await Blog.find({});
-  response.json(blogs.map(blog => blog.toJSON()));
+  return response.json(blogs.map(blog => blog.toJSON()));
 });
 
-blogsRouter.post('/', async (request, response) => {
+blogsRouter.post('/', async (request, response, next) => {
   const { body } = request;
 
   if(!body.title || !body.author || !body.url || !body.likes){
-    response.status(400).json({ error: 'Fields are empty'});
+      return response.status(400).send({ error: 'Fields are empty'});
   }
   
   const blog = new Blog(body);
-  const savedBlog = await blog.save();
-  response.status(201).json(savedBlog.toJSON());
+  try{
+    const savedBlog = await blog.save();
+    return response.status(201).json(savedBlog.toJSON());
+  } catch(exception){
+    return next(exception);
+  }
 });
 
 module.exports = blogsRouter;

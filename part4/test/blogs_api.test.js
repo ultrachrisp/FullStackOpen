@@ -52,20 +52,20 @@ test('a valid blog can be added ', async () => {
   expect(contents).toContain('Why Clojure');
 });
 
-// test('blog without content is not added', async () => {
-//   const newBlog = {
-//     likes: 2
-//   };
+test('blog without content is not added', async () => {
+  const newBlog = {
+    likes: 2
+  };
 
-//   await api
-//     .post('/api/blogs')
-//     .send(newBlog)
-//     .expect(400);
+  await api
+    .post('/api/blogs')
+    .send(newBlog)
+    .expect(400);
 
-//   const blogsAtEnd = await helper.blogsInDb();
+  const blogsAtEnd = await helper.blogsInDb();
 
-//   expect(blogsAtEnd.length).toBe(helper.initialNotes.length);
-// });
+  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length);
+});
 
 afterAll(() => {
   mongoose.connection.close();

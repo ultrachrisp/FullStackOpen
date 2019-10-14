@@ -9,75 +9,120 @@ beforeEach(async () => {
   await Blog.deleteMany({});
 
   /* Async version, no guarantee the objects will be saved in the order given... harder to test then*/
-  // const blogObjects = helper.initialBlogs.map(blog => new Blog(blog));
-  // const promiseArray = blogObjects.map(blog => blog.save());
-  // await Promise.all(promiseArray);
+  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog));
+  const promiseArray = blogObjects.map(blog => blog.save());
+  await Promise.all(promiseArray);
 
-  for (let blog of helper.initialBlogs){
-    let blogObject = new Blog(blog);
-    await blogObject.save();
-  }
+  // for (let blog of helper.initialBlogs){
+  //   let blogObject = new Blog(blog);
+  //   await blogObject.save();
+  // }
 });
 
-test('notes are returned as json', async () => {
-  await api
-    .get('/api/blogs')
-    .expect(200)
-    .expect('Content-Type', /application\/json/);
+describe('when there is initially some notes saved', () => {
+  test('notes are returned as json', async () => {
+    await api
+      .get('/api/blogs')
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+  });
+
+  test('all blogs are returned', async () => {
+    const response = await api.get('/api/blogs');
+
+    expect(response.body.length).toBe(helper.initialBlogs.length);
+  });
+
+  test('a specific blog is within the returned blogs', async () => {
+    const response = await api.get('/api/blogs');
+
+    const contents = response.body.map(r => r.url);
+    expect(contents).toContain('https://reactpatterns.com/');
+  });
 });
 
-test('the number of  notes', async () => {
-  const response = await api.get('/api/blogs');
+describe('viewing a specific blog', () => {
+  test('succeeds with a valid id', async () => {
+    const blogsAtStart = await helper.blogsInDb();
 
-  expect(response.body.length).toBe(helper.initialBlogs.length);
+    const blogToView = blogsAtStart[0];
+    const resultNote = await api
+          .get(`/api/blogs/${blogToView.id}`)
+          .expect(200)
+          .expect('Content-Type', /application\/json/);
+
+    expect(resultNote.body).toEqual(blogToView);
+  });
+
+  test('fails with statuscode 404 if blog does not exist', async () => {
+    const validNoneExistingId = await helper.nonExistingId();
+
+    console.log(validNoneExistingId);
+
+    await api
+      .get(`/api/blogs/${validNoneExistingId}`)
+      .expect(404);
+  });
+
+  // test('fails with statuscode 400 id is invalid', async () => {
+  //   const invalidId = '5a3d5da59070081a82a3445';
+
+  //   await api
+  //     .get(`/api/notes/${invalidId}`)
+  //     .expect(400);
+  // });
 });
 
-test('the first note is about HTTP methods', async () => {
-  const response = await api.get('/api/blogs');
+describe('addition of a new blog', () => {
+  test('succeeds with valid data', async () => {
+    const newBlog = {
+      title: "Why Clojure",
+      author: "Robert C. Martin",
+      url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html"
+    };
 
-  expect(response.body[0].url).toBe('https://reactpatterns.com/');
-});
+    await api
+      .post('/api/blogs')
+      .send(newBlog)
+      .expect('Content-Type', /application\/json/);
 
-// describe('New blogs', async () => {  
-test('are given an id & likes default to 0', async () => {
-  await api
-    .post('/api/blogs')
-    .send(helper.singleBlog[0])
-    .expect(201)
-    .expect('Content-Type', /application\/json/);
-  
-  const blogsAtEnd = await helper.blogsInDb();
-  expect(blogsAtEnd.map(n => n.id)).toBeDefined();
-  expect(blogsAtEnd.map(n => n.likes)).toBeDefined();
-});
-         
-test('a valid blog can be added ', async () => {
-  await api
-    .post('/api/blogs')
-    .send(helper.singleBlog[0])
-    .expect(201)
-    .expect('Content-Type', /application\/json/);
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1);
 
-  const blogsAtEnd = await helper.blogsInDb();
-  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length + 1);
-  
-  const contents = blogsAtEnd.map(n => n.title);
-  expect(contents).toContain('Why Clojure');
-});
+    const contents = blogsAtEnd.map(n => n.title);
+    expect(contents).toContain('Why Clojure');
+  });
 
-test('blog without content is not added', async () => {
-  const newBlog = {
-    likes: 2
-  };
+  test('has 0 likes if likes is not defined', async () => {
+    const noLikes = {
+      title: "This is rubbish",
+      author: "Robert C. Martin",
+      url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/ThisIsRubbish.html"
+    };
 
-  await api
-    .post('/api/blogs')
-    .send(newBlog)
-    .expect(400);
+    await api
+      .post('/api/blogs')
+      .send(noLikes)
+      .expect('Content-Type', /application\/json/);
 
-  const blogsAtEnd = await helper.blogsInDb();
+    const blogsAtEnd = await helper.blogsInDb();
+    const newBlog = blogsAtEnd.filter(blog => blog.title === noLikes.title);
+    expect(newBlog[0].likes).toBe(0);
+  });
 
-  expect(blogsAtEnd.length).toBe(helper.initialBlogs.length);
+  test('fails with status code 400 if data invalid', async () => {
+    const invalidBlog = {
+      likes: 2
+    };
+    
+    await api
+      .post('/api/blogs')
+      .send(invalidBlog)
+      .expect(400);
+    
+    const blogsAtEnd = await helper.blogsInDb();
+    expect(blogsAtEnd.length).toBe(helper.initialBlogs.length);
+  });
 });
 
 afterAll(() => {

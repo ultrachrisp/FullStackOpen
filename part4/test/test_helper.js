@@ -1,15 +1,15 @@
 const Blog = require('../models/blogs');
 
-const singleBlog = [
-  {
-    // _id: "5a422bc61b54a676234d19fc",
-    title: "Why Clojure",
-    author: "Robert C. Martin",
-    url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html",
-    // likes: 2,
-    __v: 0
-  }
-];
+// const singleBlog = [
+//   {
+//     // _id: "5a422bc61b54a676234d19fc",
+//     title: "Why Clojure",
+//     author: "Robert C. Martin",
+//     url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html",
+//     // likes: 2,
+//     __v: 0
+//   }
+// ];
 
 const initialBlogs = [
   {
@@ -76,7 +76,6 @@ const blogsInDb = async () => {
 };
 
 module.exports = {
-  singleBlog,
   initialBlogs,
   nonExistingId,
   blogsInDb

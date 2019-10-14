@@ -2,7 +2,7 @@ const Blog = require('../models/blogs');
 
 const singleBlog = [
   {
-    _id: "5a422bc61b54a676234d19fc",
+    // _id: "5a422bc61b54a676234d19fc",
     title: "Why Clojure",
     author: "Robert C. Martin",
     url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html",
@@ -13,7 +13,7 @@ const singleBlog = [
 
 const initialBlogs = [
   {
-    _id: "5a422a851b54a676234d17f7",
+    // _id: "5a422a851b54a676234d17f7",
     title: "React patterns",
     author: "Michael Chan",
     url: "https://reactpatterns.com/",
@@ -21,7 +21,7 @@ const initialBlogs = [
     __v: 0
   },
   {
-    _id: "5a422aa71b54a676234d17f8",
+    // _id: "5a422aa71b54a676234d17f8",
     title: "Go To Statement Considered Harmful",
     author: "Edsger W. Dijkstra",
     url: "http://www.u.arizona.edu/~rubinson/copyright_violations/Go_To_Considered_Harmful.html",
@@ -29,7 +29,7 @@ const initialBlogs = [
     __v: 0
   },
   {
-    _id: "5a422b3a1b54a676234d17f9",
+    // _id: "5a422b3a1b54a676234d17f9",
     title: "Canonical string reduction",
     author: "Edsger W. Dijkstra",
     url: "http://www.cs.utexas.edu/~EWD/transcriptions/EWD08xx/EWD808.html",
@@ -37,7 +37,7 @@ const initialBlogs = [
     __v: 0
   },
   {
-    _id: "5a422b891b54a676234d17fa",
+    // _id: "5a422b891b54a676234d17fa",
     title: "First class tests",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll",
@@ -45,7 +45,7 @@ const initialBlogs = [
     __v: 0
   },
   {
-    _id: "5a422ba71b54a676234d17fb",
+    // _id: "5a422ba71b54a676234d17fb",
     title: "TDD harms architecture",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2017/03/03/TDD-Harms-Architecture.html",
@@ -53,7 +53,7 @@ const initialBlogs = [
     __v: 0
   },
   {
-    _id: "5a422bc61b54a676234d17fc",
+    // _id: "5a422bc61b54a676234d17fc",
     title: "Type wars",
     author: "Robert C. Martin",
     url: "http://blog.cleancoder.com/uncle-bob/2016/05/01/TypeWars.html",

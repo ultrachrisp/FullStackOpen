@@ -38,6 +38,17 @@ test('the first note is about HTTP methods', async () => {
   expect(response.body[0].url).toBe('https://reactpatterns.com/');
 });
 
+test('blogs are given an id', async () => {
+  await api
+    .post('/api/blogs')
+    .send(helper.singleBlog[0])
+    .expect(201)
+    .expect('Content-Type', /application\/json/);
+
+  const blogsAtEnd = await helper.blogsInDb();
+  expect(blogsAtEnd.map(n => n.id)).toBeDefined();
+});
+
 test('a valid blog can be added ', async () => {
   await api
     .post('/api/blogs')

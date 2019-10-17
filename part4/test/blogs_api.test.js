@@ -3,7 +3,9 @@ const supertest = require('supertest');
 const helper = require('./test_helper');
 const app = require('../app');
 const api = supertest(app);
+
 const Blog = require('../models/blogs');
+const User = require('../models/user');
 
 beforeEach(async () => {
   await Blog.deleteMany({});
@@ -156,6 +158,36 @@ describe('updating of a blog', () => {
     
     const blogsAtEnd = await helper.blogsInDb();    
     expect(targetLike + 1).toBe( blogsAtStart[0].likes );
+  });
+});
+
+describe('when there is initially one user in the db', () => {
+  beforeEach(async () => {
+    await User.deleteMany({});
+    const user = new User({ username: 'root', password: 'secret'});
+    await user.save();
+  });
+
+  test('creation succeeds with a fresh username', async () => {
+    const usersAtStart = await helper.usersInDb();
+
+    const newUser = {
+      username: 'myDooood',
+      name: 'My Doooood',
+      password: 'superSerial'
+    };
+
+    await api
+      .post('/api/users')
+      .send(newUser)
+      .expect(200)
+      .expect('Content-Type', /application\/json/);
+
+    const usersAtEnd = await helper.usersInDB();
+    expect(usersAtEnd.length).toBe(usersAtStart.length + 1);
+
+    const usernames = usersAtEnd.map(u => u.username);
+    expect(usernames).toContain(newUser.username);
   });
 });
 

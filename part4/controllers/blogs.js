@@ -1,5 +1,6 @@
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blogs');
+const User = require('../models/user');
 const {unknownEndpoint, errorHandler} = require('../utils/middleware');
 
 blogsRouter.get('/', async (request, response, next) => {
@@ -19,7 +20,8 @@ blogsRouter.get('/:id', async (request, response, next) => {
 });
 
 blogsRouter.post('/', async (request, response, next) => {
-  const { body } = request;
+  const { body } = request,
+        user = await User.findById(body.userId);
 
   if(!body.title || !body.author || !body.url){
     return response.status(400).send({ error: 'Fields are empty'});
@@ -29,11 +31,14 @@ blogsRouter.post('/', async (request, response, next) => {
     title: body.title,
     author: body.author,
     url: body.url,
-    likes: (body.likes)? body.likes: 0
+    likes: (body.likes)? body.likes: 0,
+    user: user._id
   });
   
   try {
     const savedBlog = await blog.save();
+    user.blogs = user.blogs.concat(savedBlog._id);
+    await user.save();
     response.json(savedBlog.toJSON());
   } catch(exception){ next(exception); }
 });

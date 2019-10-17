@@ -183,7 +183,7 @@ describe('when there is initially one user in the db', () => {
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
-    const usersAtEnd = await helper.usersInDB();
+    const usersAtEnd = await helper.usersInDb();
     expect(usersAtEnd.length).toBe(usersAtStart.length + 1);
 
     const usernames = usersAtEnd.map(u => u.username);

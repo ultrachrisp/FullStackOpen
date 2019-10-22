@@ -8,17 +8,19 @@ const Blog = require('../models/blogs');
 const User = require('../models/user');
 
 beforeEach(async () => {
+  // await User.deleteMany({});
+  // const user = new User({ username: 'root', password: 'secret'});
+  // await user.save();
+  
   await Blog.deleteMany({});
+  // const blogObjects = helper.initialBlogs.map(blog => new Blog(blog));
+  // const promiseArray = blogObjects.map(blog => blog.save());
+  // await Promise.all(promiseArray);
 
-  /* Async version, no guarantee the objects will be saved in the order given... harder to test then*/
-  const blogObjects = helper.initialBlogs.map(blog => new Blog(blog));
-  const promiseArray = blogObjects.map(blog => blog.save());
-  await Promise.all(promiseArray);
-
-  // for (let blog of helper.initialBlogs){
-  //   let blogObject = new Blog(blog);
-  //   await blogObject.save();
-  // }
+  for (let blog of helper.initialBlogs){
+    let blogObject = new Blog(blog);
+    await blogObject.save();
+  }
 });
 
 describe('when there is initially some notes saved', () => {
@@ -80,7 +82,9 @@ describe('addition of a new blog', () => {
     const newBlog = {
       title: "Why Clojure",
       author: "Robert C. Martin",
-      url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html"
+      url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/WhyClojure.html",
+      likes: 7,
+      user: 123458,
     };
 
     await api
@@ -99,7 +103,8 @@ describe('addition of a new blog', () => {
     const noLikes = {
       title: "This is rubbish",
       author: "Robert C. Martin",
-      url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/ThisIsRubbish.html"
+      url: "https://blog.cleancoder.com/uncle-bob/2019/08/22/ThisIsRubbish.html",
+      user: 123458,
     };
 
     await api

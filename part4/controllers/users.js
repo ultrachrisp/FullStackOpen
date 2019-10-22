@@ -15,6 +15,12 @@ usersRouter.post('/', async (request, response, next) => {
     const { body } = request,
           saltRounds = 10;
 
+    if(body.name && body.name.length < 3){
+      return response.status(400).send({ error: `Name can't be empty or less than 3 characters`});
+    } else if (body.password && body.password.length < 3){
+      return response.status(400).send({ error: `Password can't be empty or less than 3 characters`});
+    }
+    
     const passwordHash = await bcrypt.hash(body.password, saltRounds);
 
     const user = new User({

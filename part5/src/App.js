@@ -12,11 +12,11 @@ function App() {
   const [loginVisible, setLoginVisible] = useState(false);
 
   useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser');
     if(loggedUserJSON){
       const user = JSON.parse(loggedUserJSON);
       setUser(user);
-      blogService.setToken(user.token);
+      // blogService.setToken(user.token);
     }
   });
   
@@ -36,27 +36,38 @@ function App() {
     }
   };
 
-  const loginForm = () => (
-    <form onSubmit={handleLogin}>
+  const loginForm = () => {
+    const hideWhenVisible = { display: loginVisible ? 'none' : '' };
+    const showWhenVisible = { display: loginVisible ? '' : 'none' };
+    
+    return (
       <div>
-        Username
-        <input
-          type="text"
-          name="Username"
-          value={username}
-          onChange={({target}) => setUsername(target.value)}/>
+        <div style={hideWhenVisible}>
+          <button onClick={() => setLoginVisible(true)}>log in</button>
+        </div>
+        <form onSubmit={handleLogin} style={showWhenVisible}>
+          <div>
+            Username
+            <input
+              type="text"
+              name="Username"
+              value={username}
+              onChange={({target}) => setUsername(target.value)}/>
+          </div>
+          <div>
+            Password
+            <input
+              type="password"
+              name="Passowrd"
+              value={password}
+              onChange={({target}) => setPassword(target.value)}/>
+          </div>
+          <button type="submit">login</button>
+          <button onClick={() => setLoginVisible(false)}>cancel</button>
+        </form>
       </div>
-      <div>
-        Password
-        <input
-          type="password"
-          name="Passowrd"
-          value={password}
-          onChange={({target}) => setPassword(target.value)}/>
-      </div>
-      <button type="submit">login</button>
-    </form>
-  );
+    );
+  };
   
   return (
     <div>

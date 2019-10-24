@@ -11,6 +11,15 @@ function App() {
   const [user, setUser] = useState(null);
   const [loginVisible, setLoginVisible] = useState(false);
 
+  useEffect(() => {
+    const loggedUserJSON = window.localStorage.getItem('loggedBlogappUser');
+    if(loggedUserJSON){
+      const user = JSON.parse(loggedUserJSON);
+      setUser(user);
+      blogService.setToken(user.token);
+    }
+  });
+  
   const handleLogin = async (evt) => {
     evt.preventDefault();
     try {
@@ -26,28 +35,38 @@ function App() {
       setTimeout(() => setErrorMessage(null), 5000);
     }
   };
+
+  const loginForm = () => (
+    <form onSubmit={handleLogin}>
+      <div>
+        Username
+        <input
+          type="text"
+          name="Username"
+          value={username}
+          onChange={({target}) => setUsername(target.value)}/>
+      </div>
+      <div>
+        Password
+        <input
+          type="password"
+          name="Passowrd"
+          value={password}
+          onChange={({target}) => setPassword(target.value)}/>
+      </div>
+      <button type="submit">login</button>
+    </form>
+  );
   
   return (
-    <div className="App">
-      <form onSubmit={handleLogin}>
-        <div>
-          Username
-          <input
-            type="text"
-            name="Username"
-            value={username}
-            onChange={({target}) => setUsername(target.value)}/>
-        </div>
-        <div>
-          Password
-          <input
-            type="password"
-            name="Passowrd"
-            value={password}
-            onChange={({target}) => setPassword(target.value)}/>
-        </div>
-        <button type="submit">login</button>
-      </form>
+    <div>
+      <h1>Blogs</h1>
+
+      {user === null? loginForm() :
+       <div>
+         <p>{user.name} logged in</p>
+       </div>
+      }
     </div>
   );
 }

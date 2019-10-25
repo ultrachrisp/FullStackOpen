@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Blog from './components/Blog';
 import BlogForm from './components/BlogForm';
+import Notification from './components/Notification';
 import loginService from './services/login';
 import blogService from './services/blogs';
 import './App.css';
@@ -68,6 +69,10 @@ const App = () => {
       .then(date => {
         setBlogs(blogs.concat(date));
         setBlog({ title:'',author:'', url:'' });
+      })
+      .catch(error => {
+        setErrorMessage('Could not add the blog');
+        setTimeout(() => setErrorMessage(null), 5000);
       });
   };
   
@@ -108,6 +113,8 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
 
+      <Notification message={errorMessage}/>
+      
       {user === null? loginForm() :
        <div>
          <p>{user.name} logged in

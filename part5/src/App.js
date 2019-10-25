@@ -36,6 +36,11 @@ function App() {
     }
   };
 
+  const handleLogout = (evt) => {
+    window.localStorage.removeItem('loggedBlogUser');
+    setUser(null);
+  };
+
   const loginForm = () => {
     const hideWhenVisible = { display: loginVisible ? 'none' : '' };
     const showWhenVisible = { display: loginVisible ? '' : 'none' };
@@ -75,7 +80,9 @@ function App() {
 
       {user === null? loginForm() :
        <div>
-         <p>{user.name} logged in</p>
+         <p>{user.name} logged in
+           <button onClick={handleLogout}>logout</button>
+         </p>
        </div>
       }
     </div>

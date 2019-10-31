@@ -58,6 +58,19 @@ const App = () => {
     });
   };
 
+  const handleOnclick = (evt) => {
+    const id = evt.target.name;
+
+    blogService
+      .delete(id)
+      .then(result => {
+        console.log('Progress');
+      })
+      .catch(error =>{
+        setErrorMessage('Could not delete entry');
+      });
+  };
+
   const addBlog = (evt) => {
     evt.preventDefault();
     const blogObject = {
@@ -125,7 +138,7 @@ const App = () => {
            handleChange={handleBlogChange}
          />
          <h2>blogs</h2>
-         {blogs.map(blog => <Blog key={blog.id} blog={blog}/> )}
+         {blogs.map(blog => <Blog key={blog.id}  blog={blog} onClick={handleOnclick}/> )}
        </div>
       }
     </div>

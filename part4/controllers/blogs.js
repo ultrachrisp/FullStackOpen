@@ -3,16 +3,16 @@ const config = require('../utils/config');
 const blogsRouter = require('express').Router();
 const Blog = require('../models/blogs');
 const User = require('../models/user');
-const {unknownEndpoint, errorHandler} = require('../utils/middleware');
+const {unknownEndpoint, errorHandler, tokenExtractor} = require('../utils/middleware');
 
-const getTokenFrom = request => {
-  const authorization = request.get('authorization');
-  if(authorization && authorization.toLowerCase().startsWith('bearer ')) {
-    return authorization.substring(7);
-  }
+// const getTokenFrom = request => {
+//   const authorization = request.get('authorization');
+//   if(authorization && authorization.toLowerCase().startsWith('bearer ')) {
+//     return authorization.substring(7);
+//   }
 
-  return null;
-};
+//   return null;
+// };
 
 blogsRouter.get('/', async (request, response, next) => {
   const blogs = await Blog
@@ -36,7 +36,7 @@ blogsRouter.get('/:id', async (request, response, next) => {
 blogsRouter.post('/', async (request, response, next) => {
   const { body } = request;
 
-  const token = getTokenFrom(request);
+  const token = tokenExtractor(request);
 
   try{
     const decodedToken = jwt.verify(token, config.SECRET);
@@ -67,14 +67,14 @@ blogsRouter.post('/', async (request, response, next) => {
 });
 
 blogsRouter.delete('/:id', async (request, response, next) => {
-  const token = getTokenFrom(request);
+  const token = tokenExtractor(request);
   try {
     const decodedToken = jwt.verify(token, config.SECRET);
     if(!token || !decodedToken.id){
       return response.status(401).json({error: 'token missing or invalid'});
     }
     
-    await Blog.findByIdAndRemove(request.params.id);
+    // await Blog.findByIdAndRemove(request.params.id);
     response.status(204).end();
   } catch (exception){ next(exception); };
 });

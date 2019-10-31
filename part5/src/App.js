@@ -62,9 +62,9 @@ const App = () => {
     const id = evt.target.name;
 
     blogService
-      .delete(id)
+      .remove(id)
       .then(result => {
-        console.log('Progress');
+        setBlogs(blogs.filter(blog => blog.id !== id));
       })
       .catch(error =>{
         setErrorMessage('Could not delete entry');

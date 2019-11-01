@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import Blog from './components/Blog';
-import BlogForm from './components/BlogForm';
-import Notification from './components/Notification';
-import loginService from './services/login';
-import blogService from './services/blogs';
-import './App.css';
+import Blog from './Blog';
+import BlogForm from './BlogForm';
+import LoginForm from './LoginForm';
+import Notification from './Notification';
+import loginService from '../services/login';
+import blogService from '../services/blogs';
+
 
 const App = () => {
   const [message, setMessage] = useState({
@@ -107,26 +108,15 @@ const App = () => {
         <div style={hideWhenVisible}>
           <button onClick={() => setLoginVisible(true)}>log in</button>
         </div>
-        <form onSubmit={handleLogin} style={showWhenVisible}>
-          <div>
-            Username
-            <input
-              type="text"
-              name="Username"
-              value={username}
-              onChange={({target}) => setUsername(target.value)}/>
-          </div>
-          <div>
-            Password
-            <input
-              type="password"
-              name="Passowrd"
-              value={password}
-              onChange={({target}) => setPassword(target.value)}/>
-          </div>
-          <button type="submit">login</button>
-          <button onClick={() => setLoginVisible(false)}>cancel</button>
-        </form>
+        <LoginForm
+          username={username}
+          password={password}
+          handleUsernameChange={({target}) => setUsername(target.value)}
+          handlePasswordChange={({target}) => setPassword(target.value)}
+          handleSubmit={handleLogin}
+          showWhenVisible={showWhenVisible}
+        />
+        <button onClick={() => setLoginVisible(false)}>cancel</button>
       </div>
     );
   };

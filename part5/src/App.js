@@ -7,7 +7,10 @@ import blogService from './services/blogs';
 import './App.css';
 
 const App = () => {
-  const [errorMessage, setErrorMessage] = useState(null);
+  const [message, setMessage] = useState({
+    message: '',
+    type: ''
+  });
   const [blogs, setBlogs] = useState([]);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
@@ -41,8 +44,8 @@ const App = () => {
       setUsername('');
       setPassword('');
     }catch(exception){
-      setErrorMessage('Wrong credentials');
-      setTimeout(() => setErrorMessage(null), 5000);
+      setMessage({title:'Wrong credentials', type:'error'});
+      setTimeout(() => setMessage({title:'', type:''}), 5000);
     }
   };
 
@@ -67,7 +70,7 @@ const App = () => {
         setBlogs(blogs.filter(blog => blog.id !== id));
       })
       .catch(error =>{
-        setErrorMessage('Could not delete entry');
+        setMessage({title:'Could not delete entry', type:'error'});
       });
   };
 
@@ -84,8 +87,8 @@ const App = () => {
         setBlog({ title:'',author:'', url:'' });
       })
       .catch(error => {
-        setErrorMessage('Could not add the blog');
-        setTimeout(() => setErrorMessage(null), 5000);
+        setMessage({title: 'Could not add the blog', type:'error'});
+        setTimeout(() => setMessage({title:'', type:''}), 5000);
       });
   };
   
@@ -126,7 +129,7 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
 
-      <Notification message={errorMessage}/>
+      <Notification msg={message}/>
       
       {user === null? loginForm() :
        <div>

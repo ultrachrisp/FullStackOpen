@@ -23,6 +23,12 @@ const App = () => {
       .getAll()
       .then(initialBlogs => setBlogs(initialBlogs));
   }, []);
+
+  const showMessage = ({message, type}) => {
+    console.log('Showing message');
+    setMessage({message, type});
+    setTimeout(() => setMessage({message:'', type:''}), 5000);    
+  };
   
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser');
@@ -44,8 +50,7 @@ const App = () => {
       setUsername('');
       setPassword('');
     }catch(exception){
-      setMessage({title:'Wrong credentials', type:'error'});
-      setTimeout(() => setMessage({title:'', type:''}), 5000);
+      showMessage({messasge: 'Wrong credentials', type:'error'});
     }
   };
 
@@ -68,9 +73,10 @@ const App = () => {
       .remove(id)
       .then(result => {
         setBlogs(blogs.filter(blog => blog.id !== id));
+        showMessage({message: 'Message deleted', type:'update'});
       })
       .catch(error =>{
-        setMessage({title:'Could not delete entry', type:'error'});
+        showMessage({message:'Could not delete entry', type:'error'});
       });
   };
 
@@ -85,10 +91,10 @@ const App = () => {
       .then(date => {
         setBlogs(blogs.concat(date));
         setBlog({ title:'',author:'', url:'' });
+        showMessage({message: 'Blog added successfully', type:'status'});
       })
       .catch(error => {
-        setMessage({title: 'Could not add the blog', type:'error'});
-        setTimeout(() => setMessage({title:'', type:''}), 5000);
+        showMessage({message: 'Could not add the blog', type:'error'});
       });
   };
   

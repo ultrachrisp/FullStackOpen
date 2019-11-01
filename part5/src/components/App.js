@@ -3,6 +3,7 @@ import Blog from './Blog';
 import BlogForm from './BlogForm';
 import LoginForm from './LoginForm';
 import Notification from './Notification';
+import Togglable from './Togglable';
 import loginService from '../services/login';
 import blogService from '../services/blogs';
 
@@ -16,7 +17,6 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [loginVisible, setLoginVisible] = useState(false);
   const [blog, setBlog] = useState({ title:'', author:'', url:'' });
 
   useEffect(() => {
@@ -100,24 +100,16 @@ const App = () => {
   };
   
   const loginForm = () => {
-    const hideWhenVisible = { display: loginVisible ? 'none' : '' };
-    const showWhenVisible = { display: loginVisible ? '' : 'none' };
-    
     return (
-      <div>
-        <div style={hideWhenVisible}>
-          <button onClick={() => setLoginVisible(true)}>log in</button>
-        </div>
+      <Togglable buttonLabel="log in">
         <LoginForm
           username={username}
           password={password}
           handleUsernameChange={({target}) => setUsername(target.value)}
           handlePasswordChange={({target}) => setPassword(target.value)}
           handleSubmit={handleLogin}
-          showWhenVisible={showWhenVisible}
         />
-        <button onClick={() => setLoginVisible(false)}>cancel</button>
-      </div>
+      </Togglable>
     );
   };
   
@@ -142,6 +134,6 @@ const App = () => {
       }
     </div>
   );
-}
+};
 
 export default App;

@@ -81,8 +81,13 @@ const App = () => {
       });
   };
 
+  
+  const blogFormRef = React.createRef();
+  
   const addBlog = (evt) => {
     evt.preventDefault();
+    blogFormRef.current.toggleVisibility();
+    
     const blogObject = {
       content: blog,
     };
@@ -124,10 +129,12 @@ const App = () => {
          <p>{user.name} logged in
            <button onClick={handleLogout}>logout</button>
          </p>
-         <BlogForm
-           onSubmit={addBlog}
-           handleChange={handleBlogChange}
-         />
+         <Togglable buttonLabel="new blog" ref={blogFormRef}>
+           <BlogForm
+             onSubmit={addBlog}
+             handleChange={handleBlogChange}
+           />
+         </Togglable>
          <h2>blogs</h2>
          {blogs.map(blog => <Blog key={blog.id}  blog={blog} onClick={handleOnclick}/> )}
        </div>

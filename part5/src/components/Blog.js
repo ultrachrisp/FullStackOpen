@@ -8,11 +8,10 @@ margin-bottom: 10px;
 padding: 10px;
 `;
 
-const Blog = ({ blog, onClick }) => {
+const Blog = ({ blog, onLike, onDelete }) => {
   const [visible, setVisible] = useState(false);
   
-  const hideWhenVisible = { display: visible ? 'none' : '' },
-        showWhenVisible = { display: visible ? '' : 'none' },
+  const showWhenVisible = { display: visible ? '' : 'none' },
         toggleVisibility = () => { setVisible(!visible); },
         { title, author, url, likes, user } = blog;
   
@@ -23,9 +22,9 @@ const Blog = ({ blog, onClick }) => {
       </div>
       <div style={ showWhenVisible }>
         <a href={ url }>{ url }</a>
-        <div>{likes}<button onClick={()=>{}}>Like</button></div>
+        <div>{likes}<button name={blog.id} onClick={onLike}>Like</button></div>
         <div>Added by { user[0].username }</div>
-        <button name={blog.id} onClick={onClick}>Delete</button>
+        <button name={blog.id} onClick={onDelete}>Delete</button>
       </div>
     </StyledBlog>
   );};

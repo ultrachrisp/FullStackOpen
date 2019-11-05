@@ -17,7 +17,7 @@ const App = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [user, setUser] = useState(null);
-  const [blog, setBlog] = useState({ title:'', author:'', url:'' });
+  const [blog, setBlog] = useState({ title:'', author:'', url:'', likes:0 });
 
   useEffect(() => {
     blogService
@@ -67,7 +67,7 @@ const App = () => {
     });
   };
 
-  const handleOnclick = (evt) => {
+  const handleDelete = (evt) => {
     const id = evt.target.name;
 
     blogService
@@ -76,14 +76,29 @@ const App = () => {
         setBlogs(blogs.filter(blog => blog.id !== id));
         showMessage({message: 'Message deleted', type:'update'});
       })
-      .catch(error =>{
+      .catch(error => {
         showMessage({message:'Could not delete entry', type:'error'});
+      });
+  };
+
+  const handleLike = (evt) => {
+    
+    const id = evt.target.name;
+    const blog = blogs.find(elem => elem.id === id);
+    blog.likes++;
+    
+    blogService
+      .update(id, blog)
+      .then(result => {
+        setBlogs( blogs.map(blog => (blog.id === id)? blog = result: blog) );
+      })
+      .catch(error => {
+        showMessage({message:'Could not add like to entry', type:'error'});
       });
   };
 
   
   const blogFormRef = React.createRef();
-  
   const addBlog = (evt) => {
     evt.preventDefault();
     blogFormRef.current.toggleVisibility();
@@ -136,7 +151,11 @@ const App = () => {
            />
          </Togglable>
          <h2>blogs</h2>
-         {blogs.map(blog => <Blog key={blog.id}  blog={blog} onClick={handleOnclick}/> )}
+         {blogs.map(blog => <Blog
+                              key={ blog.id }
+                              blog={ blog }
+                              onLike={ handleLike }
+                              onDelete={ handleDelete }/> )}
        </div>
       }
     </div>

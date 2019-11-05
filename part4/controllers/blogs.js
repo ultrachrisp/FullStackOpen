@@ -77,7 +77,7 @@ blogsRouter.delete('/:id', async (request, response, next) => {
 });
 
 blogsRouter.put('/:id', async (request, response, next) => {
-  const { title, author, url, likes } = request.body.content;
+  const { title, author, url, likes } = request.body;
   const blog = { title, author, url, likes };
 
   try {

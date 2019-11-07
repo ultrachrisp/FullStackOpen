@@ -10,13 +10,11 @@ padding: 10px;
 
 const Blog = ({ blog, onLike, onDelete, currentUser }) => {
   const [visible, setVisible] = useState(false);
-  
+
   const showWhenVisible = { display: visible ? '' : 'none' },
         toggleVisibility = () => { setVisible(!visible); },
         { title, author, url, likes, user } = blog;
-  const deleteButton = 
-  console.log('1',currentUser,'2', user[0].username);
-  
+
   return (
     <StyledBlog>
       <div onClick={() => toggleVisibility() }>

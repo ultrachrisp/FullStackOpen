@@ -25,12 +25,12 @@ const App = () => {
       .then(initialBlogs => setBlogs(initialBlogs));
   }, []);
 
-  const showMessage = ({message, type}) => {
+  const showMessage = ({ message, type }) => {
     console.log('Showing message');
-    setMessage({message, type});
-    setTimeout(() => setMessage({message:'', type:''}), 5000);    
+    setMessage( { message, type } );
+    setTimeout(() => setMessage({ message:'', type:'' }), 5000);
   };
-  
+
   useEffect(() => {
     const loggedUserJSON = window.localStorage.getItem('loggedBlogUser');
     if(loggedUserJSON){
@@ -39,7 +39,7 @@ const App = () => {
       blogService.setToken(user.token);
     }
   }, []);
-  
+
   const handleLogin = async (evt) => {
     evt.preventDefault();
     try {
@@ -51,11 +51,11 @@ const App = () => {
       setUsername('');
       setPassword('');
     }catch(exception){
-      showMessage({messasge: 'Wrong credentials', type:'error'});
+      showMessage({ messasge: 'Wrong credentials', type:'error' });
     }
   };
 
-  const handleLogout = (evt) => {
+  const handleLogout = () => {
     window.localStorage.removeItem('loggedBlogUser');
     setUser(null);
   };
@@ -77,36 +77,34 @@ const App = () => {
         .remove(id)
         .then(result => {
           setBlogs(blogs.filter(blog => blog.id !== id));
-          showMessage({message: 'Message deleted', type:'update'});
+          showMessage({ message: 'Message deleted', type:'update' });
         })
         .catch(error => {
-          showMessage({message:'Could not delete entry', type:'error'});
+          showMessage({ message:'Could not delete entry', type:'error' });
         });
     }
   };
 
   const handleLike = (evt) => {
-    
     const id = evt.target.name;
     const blog = blogs.find(elem => elem.id === id);
     blog.likes++;
-    
+
     blogService
       .update(id, blog)
       .then(result => {
         setBlogs( blogs.map(blog => (blog.id === id)? blog = result: blog) );
       })
       .catch(error => {
-        showMessage({message:'Could not add like to entry', type:'error'});
+        showMessage({ message:'Could not add like to entry', type:'error' });
       });
   };
 
-  
   const blogFormRef = React.createRef();
   const addBlog = (evt) => {
     evt.preventDefault();
     blogFormRef.current.toggleVisibility();
-    
+
     const blogObject = {
       content: blog,
     };
@@ -116,35 +114,35 @@ const App = () => {
       .then(date => {
         setBlogs(blogs.concat(date));
         setBlog({ title:'',author:'', url:'' });
-        showMessage({message: 'Blog added successfully', type:'status'});
+        showMessage({ message: 'Blog added successfully', type:'status' });
       })
       .catch(error => {
-        showMessage({message: 'Could not add the blog', type:'error'});
+        showMessage({ message: 'Could not add the blog', type:'error' });
       });
   };
-  
+
   const loginForm = () => {
     return (
       <Togglable buttonLabel="log in">
         <LoginForm
-          username={username}
-          password={password}
-          handleUsernameChange={({target}) => setUsername(target.value)}
-          handlePasswordChange={({target}) => setPassword(target.value)}
-          handleSubmit={handleLogin}
+          username={ username }
+          password={ password }
+          handleUsernameChange={({ target }) => setUsername(target.value)}
+          handlePasswordChange={({ target }) => setPassword(target.value)}
+          handleSubmit={ handleLogin }
         />
       </Togglable>
     );
   };
 
   const sortedByLikes = blogs.sort((a, b) => a.likes < b.likes);
-  
+
   return (
     <div>
       <h1>Blogs</h1>
 
       <Notification msg={message}/>
-      
+
       {user === null? loginForm() :
        <div>
          <p>{user.name} logged in

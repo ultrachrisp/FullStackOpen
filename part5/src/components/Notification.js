@@ -7,15 +7,15 @@ padding: 20px;
 border: 3px solid ${props => props.type};
 `;
 
-const Notification = ({msg}) => {
-  const {message, type} = msg;
+const Notification = ({ msg }) => {
+  const { message, type } = msg;
   if(!message){ return null; }
 
   const notificationColor = (type === 'status'? 'green' : 'red');
-  
+
   return (
-    <StyledNotification type={(type)? notificationColor: false}>
-      {message}
+    <StyledNotification type={( type )? notificationColor: false}>
+      { message }
     </StyledNotification>
   );
 };

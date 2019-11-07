@@ -68,17 +68,21 @@ const App = () => {
   };
 
   const handleDelete = (evt) => {
-    const id = evt.target.name;
 
-    blogService
-      .remove(id)
-      .then(result => {
-        setBlogs(blogs.filter(blog => blog.id !== id));
-        showMessage({message: 'Message deleted', type:'update'});
-      })
-      .catch(error => {
-        showMessage({message:'Could not delete entry', type:'error'});
-      });
+    if(window.confirm('Remove blog'))
+    {
+      const id = evt.target.name;
+
+      blogService
+        .remove(id)
+        .then(result => {
+          setBlogs(blogs.filter(blog => blog.id !== id));
+          showMessage({message: 'Message deleted', type:'update'});
+        })
+        .catch(error => {
+          showMessage({message:'Could not delete entry', type:'error'});
+        });
+    }
   };
 
   const handleLike = (evt) => {
@@ -132,6 +136,8 @@ const App = () => {
       </Togglable>
     );
   };
+
+  const sortedByLikes = blogs.sort((a, b) => a.likes < b.likes);
   
   return (
     <div>
@@ -151,11 +157,12 @@ const App = () => {
            />
          </Togglable>
          <h2>blogs</h2>
-         {blogs.map(blog => <Blog
-                              key={ blog.id }
-                              blog={ blog }
-                              onLike={ handleLike }
-                              onDelete={ handleDelete }/> )}
+         {sortedByLikes.map(blog => <Blog
+                                      key={ blog.id }
+                                      blog={ blog }
+                                      currentUser={ user.username }
+                                      onLike={ handleLike }
+                                      onDelete={ handleDelete }/> )}
        </div>
       }
     </div>

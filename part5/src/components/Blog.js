@@ -11,16 +11,16 @@ padding: 10px;
 const Blog = ({ blog, onLike, onDelete, currentUser }) => {
   const [visible, setVisible] = useState(false);
 
-  const showWhenVisible = { display: visible ? '' : 'none' },
+  const toggleVisible = { display: visible ? '' : 'none' },
         toggleVisibility = () => { setVisible(!visible); },
         { title, author, url, likes, user } = blog;
 
   return (
     <StyledBlog>
-      <div onClick={() => toggleVisibility() }>
+      <div className="toggleSwitch" onClick={() => toggleVisibility() }>
         { title } by { author }
       </div>
-      <div style={ showWhenVisible }>
+      <div style={ toggleVisible }>
         <a href={ url }>{ url }</a>
         <div>{likes}<button name={blog.id} onClick={onLike}>Like</button></div>
         <div>Added by { user[0].username }</div>

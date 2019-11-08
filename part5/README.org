@@ -1,5 +1,5 @@
 #+TITLE: Exercise: Blog list front end
 
-These are the exercises for part [[https://fullstackopen.com/en/part5/login_in_frontend][5.1 to 5.4]], [[https://fullstackopen.com/en/part5/props_children_and_proptypes][5.5 to 5.12]]  of the [[https://fullstackopen.com][Full Stack Open]].
+These are the exercises for part [[https://fullstackopen.com/en/part5/login_in_frontend][5.1 to 5.4]], [[https://fullstackopen.com/en/part5/props_children_and_proptypes][5.5 to 5.12]], [[https://fullstackopen.com/en/part5/testing_react_apps][5.13 to 5.17]]  of the [[https://fullstackopen.com][Full Stack Open]].
 
 To run the local mongodb instance:

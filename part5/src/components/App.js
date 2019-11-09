@@ -6,7 +6,7 @@ import Notification from './Notification';
 import Togglable from './Togglable';
 import loginService from '../services/login';
 import blogService from '../services/blogs';
-
+import { useField } from '../hooks/index';
 
 const App = () => {
   const [message, setMessage] = useState({
@@ -14,8 +14,8 @@ const App = () => {
     type: ''
   });
   const [blogs, setBlogs] = useState([]);
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const username = useField('text');
+  const password = useField('password');
   const [user, setUser] = useState(null);
   const [blog, setBlog] = useState({ title:'', author:'', url:'', likes:0 });
 
@@ -43,13 +43,15 @@ const App = () => {
   const handleLogin = async (evt) => {
     evt.preventDefault();
     try {
-      const user = await loginService.login({ username, password });
+      const user = await loginService.login({
+        username: username.value,
+        password: password.value });
 
       window.localStorage.setItem('loggedBlogUser', JSON.stringify(user));
       blogService.setToken(user.token);
       setUser(user);
-      setUsername('');
-      setPassword('');
+      username.clear();
+      password.clear();
     }catch(exception){
       showMessage({ messasge: 'Wrong credentials', type:'error' });
     }
@@ -127,8 +129,6 @@ const App = () => {
         <LoginForm
           username={ username }
           password={ password }
-          handleUsernameChange={({ target }) => setUsername(target.value)}
-          handlePasswordChange={({ target }) => setPassword(target.value)}
           handleSubmit={ handleLogin }
         />
       </Togglable>

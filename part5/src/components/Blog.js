@@ -16,7 +16,7 @@ const Blog = ({ blog, onLike, onDelete, currentUser }) => {
         { title, author, url, likes, user } = blog;
 
   return (
-    <StyledBlog>
+    <StyledBlog className="blog">
       <div className="toggleSwitch" onClick={() => toggleVisibility() }>
         { title } by { author }
       </div>

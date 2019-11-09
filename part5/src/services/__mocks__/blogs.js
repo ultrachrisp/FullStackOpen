@@ -8,7 +8,7 @@ const blogs = [
         id: "5db188dbfaa2fa3ac5608b07"
       }
     ],
-    title: "Rock along",
+    title: "Test blog alpha",
     author: "JoeKickass",
     url: "asdfasdfasd",
     id: "5db2cefbb1f33f1e5e24247a"
@@ -22,7 +22,7 @@ const blogs = [
         id: "5db188dbfaa2fa3ac5608b07"
       }
     ],
-    title: "Title of a blog",
+    title: "Test blog beta",
     author: "Was added",
     url: "over here",
     id: "5dbc08576f74d4144f4da2da"

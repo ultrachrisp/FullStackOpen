@@ -9,11 +9,9 @@ describe ('<App />', () => {
     const component = render(
       <App />
     );
-    // component.rerender(<App />);
+    component.rerender(<App />);
     
-    // await waitForElement(() => component.container.querySelector('.login'));
-
-    // console.log(prettyDOM(component.container));
+    await waitForElement(() => component.container.querySelector('.login'));
     
     const login = component.container.querySelector('.login').parentElement;
     expect(login).toHaveStyle('display: none');
@@ -32,9 +30,21 @@ describe ('<App />', () => {
     );    
     component.rerender(<App />);
 
-    const results = await waitForElement(() => component.container.querySelector('.blog'));
+    await waitForElement(() => component.container.querySelector('.blog'));
+
+    const blogs = component.container.querySelectorAll('.blog');
+    expect(blogs.length).toBe(2);
+
+    expect(component.container).toHaveTextContent(
+      'Test blog alpha'
+    );
+    
+    expect(component.container).toHaveTextContent(
+      'Test blog beta'
+    );
+    
     // console.log(component.container);
 
-    console.log(prettyDOM(component.container));
+    // console.log(prettyDOM(component.container));
   });
 });

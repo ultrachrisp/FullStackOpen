@@ -45,4 +45,11 @@ export const createAnecdote = content => {
   };
 };
 
+export const voteFor = id => {
+  return {
+    type:'VOTE',
+    id
+  };
+};
+
 export default reducer;

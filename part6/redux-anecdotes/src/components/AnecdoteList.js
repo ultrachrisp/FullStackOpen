@@ -1,8 +1,12 @@
 import React from 'react';
 import { voteFor } from '../reducers/anecdoteReducer';
+import { notificationFor } from '../reducers/notificationReducer';
 
 const AnecdoteList = (props) => {
-  const vote = (id) => { props.store.dispatch( voteFor(id) ); };
+  const vote = ({id, content}) => {
+    props.store.dispatch( voteFor(id) );
+    props.store.dispatch( notificationFor(content) );
+  };
   const anecdotes = props.store.getState().anecdotes.sort((a,b) => b.votes - a.votes);
 
   return anecdotes.map(anecdote =>
@@ -12,7 +16,7 @@ const AnecdoteList = (props) => {
                          </div>
                          <div>
                            has {anecdote.votes}
-                           <button onClick={() => vote(anecdote.id)}>vote</button>
+                           <button onClick={() => vote(anecdote)}>vote</button>
                          </div>
                        </div>
                       );

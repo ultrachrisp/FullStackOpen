@@ -24,7 +24,7 @@ const anecdoteReducer = (state = initialState, action) => {
   console.log('action', action);
   switch(action.type){
   case 'VOTE':
-    return state.map(elem => (elem.id !== action.id)? elem : { ...elem, votes : elem.votes+1 });
+    return state.map(elem => (elem.id !== action.data.id)? elem : { ...elem, votes : elem.votes+1 });
   case 'NEW':
     return [...state, action.data];
   default:
@@ -48,7 +48,7 @@ export const createAnecdote = content => {
 export const voteFor = id => {
   return {
     type:'VOTE',
-    id
+    data:{ id }
   };
 };
 

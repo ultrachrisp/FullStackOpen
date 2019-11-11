@@ -8,18 +8,34 @@ const notificationReducer = (state = [...notificationsAtStart], action) => {
   // console.log('action', action);
 
   switch(action.type){
-  case '':
+  case 'SHOW_NOTIFICATION':
     return `${notificationsAtStart[1]} '${action.data.content}'`;
+  case 'HIDE_NOTIFICATION':
   default:
     return `${notificationsAtStart[0]}`;
   }
 };
 
-export const notificationFor = content => {
+function showNotification(content) {
   return {
-    type:'SHOW_NOTIFICATION',
-    data:{ content }
+    type: 'SHOW_NOTIFICATION',
+    data: { content }
   };
+}
+function hideNotification() {
+  return {
+    type: 'HIDE_NOTIFICATION',
+    data: {}
+  };
+}
+
+
+export const showNotificationWithTimeout = (dispatch, content) => {
+  dispatch(showNotification(content));
+
+  setTimeout(() => {
+    dispatch(hideNotification());
+  }, 5000);
 };
 
 export default notificationReducer;

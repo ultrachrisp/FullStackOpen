@@ -9,11 +9,12 @@ const AnecdoteList = (props) => {
     props.store.dispatch( voteFor(id) );
     showNotificationWithTimeout(props.store.dispatch, content);
   };
-  // const anecdotes = props.store.getState().anecdotes.sort((a,b) => b.votes - a.votes);
-  const sorted = anecdotes.sort((a,b) => b.votes - a.votes);
-  const filtered = sorted.filter(elem => elem.content.toLowerCase().includes(filter.toLowerCase()) );
 
-  return filtered.map(anecdote =>
+  // const filtered = anecdotes.filter(elem => elem.content.toLowerCase().includes(filter.toLowerCase()) );
+  // const sorted = filtered.sort((a,b) => b.votes - a.votes);
+  const filteredAndSorted = anecdotes.filter(elem => elem.content.toLowerCase().includes(filter.toLowerCase()) ).sort((a,b) => b.votes - a.votes);
+
+  return filteredAndSorted.map(anecdote =>
                        <div key={anecdote.id}>
                          <div>
                            {anecdote.content}

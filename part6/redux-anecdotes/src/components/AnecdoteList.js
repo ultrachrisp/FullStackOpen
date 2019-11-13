@@ -11,10 +11,7 @@ const AnecdoteList = (props) => {
   };
   // const anecdotes = props.store.getState().anecdotes.sort((a,b) => b.votes - a.votes);
   const sorted = anecdotes.sort((a,b) => b.votes - a.votes);
-  const filtered = sorted.filter(elem => {
-    console.log(elem.content, filter);
-    return (elem.content.includes(filter))? elem: '';
-  });
+  const filtered = sorted.filter(elem => elem.content.includes(filter) );
 
   return filtered.map(anecdote =>
                        <div key={anecdote.id}>

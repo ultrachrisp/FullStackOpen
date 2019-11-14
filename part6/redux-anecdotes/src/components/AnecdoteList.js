@@ -4,7 +4,7 @@ import { voteFor } from '../reducers/anecdoteReducer';
 import { showNotification, hideNotification } from '../reducers/notificationReducer';
 
 const AnecdoteList = (props) => {
-  const { anecdotes, filter } = props;
+  const { anecdotesToShow } = props;
   
   const vote = ({id, content}) => {
     props.voteFor(id);
@@ -14,17 +14,17 @@ const AnecdoteList = (props) => {
     }, 5000);
   };
 
-  return props.anecdotesToShow.map(anecdote =>
-                       <div key={anecdote.id}>
-                         <div>
-                           {anecdote.content}
-                         </div>
-                         <div>
-                           has {anecdote.votes}
-                           <button onClick={() => vote(anecdote)}>vote</button>
-                         </div>
-                       </div>
-                      );
+  return anecdotesToShow.map(anecdote =>
+                             <div key={anecdote.id}>
+                               <div>
+                                 {anecdote.content}
+                               </div>
+                               <div>
+                                 has {anecdote.votes}
+                                 <button onClick={() => vote(anecdote)}>vote</button>
+                               </div>
+                             </div>
+                            );
 };
 
 const mapStateToProps = (state) => {

@@ -1,13 +1,17 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { voteFor } from '../reducers/anecdoteReducer';
-import { showNotificationWithTimeout } from '../reducers/notificationReducer';
+import { showNotification, hideNotification } from '../reducers/notificationReducer';
 
 const AnecdoteList = (props) => {
-  const { anecdotes, filter } = props.store.getState();
+  const { anecdotes, filter } = props;
   
   const vote = ({id, content}) => {
-    props.store.dispatch( voteFor(id) );
-    showNotificationWithTimeout(props.store.dispatch, content);
+    props.voteFor(id);
+    props.showNotification(content);
+    setTimeout(() => {
+      props.hideNotification();
+    }, 5000);
   };
 
   // const filtered = anecdotes.filter(elem => elem.content.toLowerCase().includes(filter.toLowerCase()) );
@@ -27,4 +31,20 @@ const AnecdoteList = (props) => {
                       );
 };
 
-export default AnecdoteList;
+const mapStateToProps = (state) => {
+  return {
+    anecdotes: state.anecdotes,
+    filter: state.filter
+  };
+};
+
+const mapDispatchToProps = {
+  voteFor,
+  showNotification,
+  hideNotification
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(AnecdoteList);

@@ -14,11 +14,7 @@ const AnecdoteList = (props) => {
     }, 5000);
   };
 
-  // const filtered = anecdotes.filter(elem => elem.content.toLowerCase().includes(filter.toLowerCase()) );
-  // const sorted = filtered.sort((a,b) => b.votes - a.votes);
-  const filteredAndSorted = anecdotes.filter(elem => elem.content.toLowerCase().includes(filter.toLowerCase()) ).sort((a,b) => b.votes - a.votes);
-
-  return filteredAndSorted.map(anecdote =>
+  return props.anecdotesToShow.map(anecdote =>
                        <div key={anecdote.id}>
                          <div>
                            {anecdote.content}
@@ -32,9 +28,9 @@ const AnecdoteList = (props) => {
 };
 
 const mapStateToProps = (state) => {
+  const anecdotesToShow = state.anecdotes.filter(elem => elem.content.toLowerCase().includes(state.filter.toLowerCase()) ).sort((a,b) => b.votes - a.votes);
   return {
-    anecdotes: state.anecdotes,
-    filter: state.filter
+    anecdotesToShow
   };
 };
 

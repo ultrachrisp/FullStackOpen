@@ -11,10 +11,8 @@ const notificationReducer = (state = '', action) => {
 };
 
 export function setNotification(msg, delay) {
-  console.log('calling');
-
   return async dispatch => {
-    console.log('showing');
+
     dispatch({
       type: 'SHOW_NOTIFICATION',
       data: msg
@@ -26,8 +24,6 @@ export function setNotification(msg, delay) {
       type: 'HIDE_NOTIFICATION',
       data: {}
     });
-    
-
   };
 }
 

@@ -9,13 +9,7 @@ const AnecdoteList = (props) => {
   const vote = (content) => {
     const votedFor = { ...content, votes: content.votes+1 };
     props.voteFor(votedFor);
-
-
     props.setNotification(`you voted '${content.content}'`, 5000);
-    // props.showNotification(content);
-    // setTimeout(() => {
-    //   props.hideNotification();
-    // }, 5000);
   };
 
   return anecdotesToShow.map(anecdote =>

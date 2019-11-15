@@ -1,7 +1,4 @@
 const filterReducer = (state = '', action) => {
-  // console.log('state now: ', state);
-  // console.log('action', action);
-  
   switch(action.type){
     case 'SET_FILTER':
       return action.data;
@@ -10,11 +7,10 @@ const filterReducer = (state = '', action) => {
   }
 };
 
-export const filterChange = content => {
-  
+export const filterChange = data => {
   return {
     type: 'SET_FILTER',
-    data: content
+    data
   };
 };
 

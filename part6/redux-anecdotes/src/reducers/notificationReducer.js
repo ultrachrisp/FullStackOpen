@@ -1,30 +1,33 @@
-const notificationsAtStart = [
-  '',
-  'you voted for'
-];
-
-const notificationReducer = (state = [...notificationsAtStart], action) => {
+const notificationReducer = (state = '', action) => {
 
   switch(action.type){
   case 'SHOW_NOTIFICATION':
-    return `${notificationsAtStart[1]} '${action.data.content}'`;
+    return `${action.data}`;
   case 'HIDE_NOTIFICATION':
+    return ``;
   default:
-    return `${notificationsAtStart[0]}`;
+    return state;
   }
 };
 
-export function showNotification(content) {
-  return {
-    type: 'SHOW_NOTIFICATION',
-    data: { content }
-  };
-}
+export function setNotification(msg, delay) {
+  console.log('calling');
 
-export function hideNotification() {
-  return {
-    type: 'HIDE_NOTIFICATION',
-    data: {}
+  return async dispatch => {
+    console.log('showing');
+    dispatch({
+      type: 'SHOW_NOTIFICATION',
+      data: msg
+    });
+
+    await new Promise(resolve => setTimeout(resolve, delay));
+    
+    dispatch({
+      type: 'HIDE_NOTIFICATION',
+      data: {}
+    });
+    
+
   };
 }
 

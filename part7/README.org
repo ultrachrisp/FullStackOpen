@@ -1,0 +1,3 @@
+#+TITLE: Exercise: Anecdotes
+
+These are the exercises for part [[https://fullstackopen.com/en/part7/react_router][7.1 to 7.3]] of the [[https://fullstackopen.com][Full Stack Open]].

@@ -7,7 +7,7 @@ const Menu = () => {
   };
   return (
     <>
-      <Link style={padding} to="/">anecdote</Link>
+      <Link style={padding} to="/">anecdotes</Link>
       <Link style={padding} to="/create-new">create new</Link>
       <Link style={padding} to="/about">about</Link>
     </>
@@ -18,7 +18,13 @@ const AnecdoteList = ({ anecdotes }) => (
   <div>
     <h2>Anecdotes</h2>
     <ul>
-      {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
+      {anecdotes.map(anecdote =>
+                     <li key={anecdote.id} >
+                       <Link to={`/anecdotes/${anecdote.id}`}>
+                         {anecdote.content}
+                       </Link>
+                     </li>
+                    )}
     </ul>
   </div>
 );

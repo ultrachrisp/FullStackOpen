@@ -59,7 +59,7 @@ const Footer = () => (
   </div>
 );
 
-const CreateNew = (props) => {
+const CreateNewNoHistory = (props) => {
   const [content, setContent] = useState('');
   const [author, setAuthor] = useState('');
   const [info, setInfo] = useState('');
@@ -73,6 +73,7 @@ const CreateNew = (props) => {
       info,
       votes: 0
     });
+    props.history.push('/');
   };
 
   return (
@@ -96,6 +97,8 @@ const CreateNew = (props) => {
     </div>
   );
 };
+
+const CreateNew = withRouter(CreateNewNoHistory);
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -137,7 +140,7 @@ const App = () => {
   };
 
   return (
-    <div>
+    <>
       <h1>Software anecdotes</h1>
       <Router>
         <>
@@ -157,7 +160,7 @@ const App = () => {
         </>
       </Router>
       <Footer />
-    </div>
+    </>
   );
 };
 

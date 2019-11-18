@@ -1,17 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 
 const Menu = () => {
   const padding = {
     paddingRight: 5
-  }
+  };
   return (
     <div>
       <a href='#' style={padding}>anecdotes</a>
       <a href='#' style={padding}>create new</a>
       <a href='#' style={padding}>about</a>
     </div>
-  )
-}
+  );
+};
 
 const AnecdoteList = ({ anecdotes }) => (
   <div>
@@ -20,7 +20,7 @@ const AnecdoteList = ({ anecdotes }) => (
       {anecdotes.map(anecdote => <li key={anecdote.id} >{anecdote.content}</li>)}
     </ul>
   </div>
-)
+);
 
 const About = () => (
   <div>
@@ -34,7 +34,7 @@ const About = () => (
 
     <p>Software engineering is full of excellent anecdotes, at this app you can find the best and add more.</p>
   </div>
-)
+);
 
 const Footer = () => (
   <div>
@@ -42,23 +42,23 @@ const Footer = () => (
 
     See <a href='https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js'>https://github.com/fullstack-hy2019/routed-anecdotes/blob/master/src/App.js</a> for the source code.
   </div>
-)
+);
 
 const CreateNew = (props) => {
-  const [content, setContent] = useState('')
-  const [author, setAuthor] = useState('')
-  const [info, setInfo] = useState('')
+  const [content, setContent] = useState('');
+  const [author, setAuthor] = useState('');
+  const [info, setInfo] = useState('');
 
 
   const handleSubmit = (e) => {
-    e.preventDefault()
+    e.preventDefault();
     props.addNew({
       content,
       author,
       info,
       votes: 0
-    })
-  }
+    });
+  };
 
   return (
     <div>
@@ -79,9 +79,8 @@ const CreateNew = (props) => {
         <button>create</button>
       </form>
     </div>
-  )
-
-}
+  );
+};
 
 const App = () => {
   const [anecdotes, setAnecdotes] = useState([
@@ -99,28 +98,28 @@ const App = () => {
       votes: 0,
       id: '2'
     }
-  ])
+  ]);
 
-  const [notification, setNotification] = useState('')
+  const [notification, setNotification] = useState('');
 
   const addNew = (anecdote) => {
-    anecdote.id = (Math.random() * 10000).toFixed(0)
-    setAnecdotes(anecdotes.concat(anecdote))
-  }
+    anecdote.id = (Math.random() * 10000).toFixed(0);
+    setAnecdotes(anecdotes.concat(anecdote));
+  };
 
   const anecdoteById = (id) =>
-    anecdotes.find(a => a.id === id)
+        anecdotes.find(a => a.id === id);
 
   const vote = (id) => {
-    const anecdote = anecdoteById(id)
+    const anecdote = anecdoteById(id);
 
     const voted = {
       ...anecdote,
       votes: anecdote.votes + 1
-    }
+    };
 
-    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a))
-  }
+    setAnecdotes(anecdotes.map(a => a.id === id ? voted : a));
+  };
 
   return (
     <div>
@@ -131,7 +130,7 @@ const App = () => {
       <CreateNew addNew={addNew} />
       <Footer />
     </div>
-  )
-}
+  );
+};
 
 export default App;

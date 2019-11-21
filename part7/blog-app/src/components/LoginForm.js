@@ -6,18 +6,18 @@ const LoginForm =({
   username,
   password
 }) => {
-  const { reset:r1, ...usrnm } = username,
-        { reset:r2, ...psswrd } = password;
-  
+  // const { reset:r1, ...usrnm } = username,
+  //       { reset:r2, ...psswrd } = password;
+
   return (
     <form onSubmit={handleSubmit} className="login">
       <div>
         Username
-        <input { ...usrnm } />
+        <input { ...username } />
       </div>
       <div>
         Password
-        <input { ...psswrd } />
+        <input { ...password } />
       </div>
       <button type="submit">login</button>
     </form>

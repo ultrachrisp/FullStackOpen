@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+
 import Blog from './Blog';
 import BlogForm from './BlogForm';
 import LoginForm from './LoginForm';
@@ -8,11 +10,13 @@ import loginService from '../services/login';
 import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
-const App = () => {
-  const [message, setMessage] = useState({
-    message: '',
-    type: ''
-  });
+import { setNotification } from '../reducers/notificationReducer';
+
+const App = (props) => {
+  // const [message, setMessage] = useState({
+  //   message: '',
+  //   type: ''
+  // });
   const [blogs, setBlogs] = useState([]);
   const username = useField('text');
   const password = useField('password');
@@ -27,8 +31,9 @@ const App = () => {
 
   const showMessage = ({ message, type }) => {
     console.log('Showing message');
-    setMessage( { message, type } );
-    setTimeout(() => setMessage({ message:'', type:'' }), 5000);
+    props.setNotification(message, type, 5000);
+    // setMessage( { message, type } );
+    // setTimeout(() => setMessage({ message:'', type:'' }), 5000);
   };
 
   useEffect(() => {
@@ -141,7 +146,7 @@ const App = () => {
     <div>
       <h1>Blogs</h1>
 
-      <Notification msg={message}/>
+      <Notification />
 
       {user === null? loginForm() :
        <div>
@@ -167,4 +172,11 @@ const App = () => {
   );
 };
 
-export default App;
+const mapDispatchToProps = {
+  setNotification
+};
+
+export default connect(
+  null,
+  mapDispatchToProps
+)(App);

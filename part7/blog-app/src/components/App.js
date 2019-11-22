@@ -11,14 +11,14 @@ import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
 import { setNotification } from '../reducers/notificationReducer';
-import { initialiseBlogs, createBlog, voteFor } from '../reducers/blogsReducer';
+import { initialiseBlogs, voteFor } from '../reducers/blogsReducer';
 
 const App = (props) => {
   const [blogs, setBlogs] = useState([]);
   const username = useField('text');
   const password = useField('password');
   const [user, setUser] = useState(null);
-  const [blog, setBlog] = useState({ title:'', author:'', url:'', likes:0 });
+  // const [blog, setBlog] = useState({ title:'', author:'', url:'', likes:0 });
 
   useEffect(() => {
     props.initialiseBlogs();
@@ -94,29 +94,6 @@ const App = (props) => {
   };
 
   const blogFormRef = React.createRef();
-  
-  const addBlog = (evt) => {
-    evt.preventDefault();
-    blogFormRef.current.toggleVisibility();
-
-    const blogObject = {
-      content: blog,
-    };
-
-    props.createBlog(blogObject);
-    showMessage({ message: 'Blog added successfully', type:'status' });
-
-    // blogService
-    //   .create(blogObject)
-    //   .then(date => {
-    //     setBlogs(blogs.concat(date));
-    //     setBlog({ title:'',author:'', url:'' });
-    //     showMessage({ message: 'Blog added successfully', type:'status' });
-    //   })
-    //   .catch(error => {
-    //     showMessage({ message: 'Could not add the blog', type:'error' });
-    //   });
-  };
 
   const loginForm = () => {
     return (
@@ -144,9 +121,7 @@ const App = (props) => {
            <button onClick={handleLogout}>logout</button>
          </p>
          <Togglable buttonLabel="new blog" ref={blogFormRef}>
-           <BlogForm
-             onSubmit={addBlog}
-           />
+           <BlogForm />
          </Togglable>
          <h2>blogs</h2>
          {props.sortedByLikes.map(blog => <Blog
@@ -172,8 +147,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setNotification,
   initialiseBlogs,
-  voteFor,
-  createBlog
+  voteFor
 };
 
 export default connect(

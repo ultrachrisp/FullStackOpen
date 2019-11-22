@@ -1,10 +1,13 @@
-const notificationReducer = (state = '', action) => {
+const notificationReducer = (state = { message:'', type:'' }, action) => {
 
   switch(action.type){
   case 'SHOW_NOTIFICATION':
-    return `${action.data}`;
+    return {
+      message: action.data.message,
+      type: action.data.type
+    };
   case 'HIDE_NOTIFICATION':
-    return ``;
+    return { message:'', type:'' };
   default:
     return state;
   }
@@ -16,7 +19,7 @@ export function setNotification(message, type, delay) {
       type: 'SHOW_NOTIFICATION',
       data: {
         message,
-        delay
+        type
       }
     });
 

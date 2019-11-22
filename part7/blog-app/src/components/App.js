@@ -13,10 +13,6 @@ import { useField } from '../hooks/index';
 import { setNotification } from '../reducers/notificationReducer';
 
 const App = (props) => {
-  // const [message, setMessage] = useState({
-  //   message: '',
-  //   type: ''
-  // });
   const [blogs, setBlogs] = useState([]);
   const username = useField('text');
   const password = useField('password');
@@ -32,8 +28,6 @@ const App = (props) => {
   const showMessage = ({ message, type }) => {
     console.log('Showing message');
     props.setNotification(message, type, 5000);
-    // setMessage( { message, type } );
-    // setTimeout(() => setMessage({ message:'', type:'' }), 5000);
   };
 
   useEffect(() => {

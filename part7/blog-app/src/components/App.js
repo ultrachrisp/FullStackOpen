@@ -11,6 +11,7 @@ import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
 import { setNotification } from '../reducers/notificationReducer';
+import { initialiseBlogs, createBlog, voteFor } from '../reducers/blogsReducer';
 
 const App = (props) => {
   const [blogs, setBlogs] = useState([]);
@@ -20,13 +21,10 @@ const App = (props) => {
   const [blog, setBlog] = useState({ title:'', author:'', url:'', likes:0 });
 
   useEffect(() => {
-    blogService
-      .getAll()
-      .then(initialBlogs => setBlogs(initialBlogs));
-  }, []);
+    props.initialiseBlogs();
+  },[]);
 
   const showMessage = ({ message, type }) => {
-    console.log('Showing message');
     props.setNotification(message, type, 5000);
   };
 
@@ -87,18 +85,19 @@ const App = (props) => {
   };
 
   const handleLike = (evt) => {
-    const id = evt.target.name;
-    const blog = blogs.find(elem => elem.id === id);
+    const blog = props.blogs.find(elem => elem.id === evt.target.name);
     blog.likes++;
 
-    blogService
-      .update(id, blog)
-      .then(result => {
-        setBlogs( blogs.map(blog => (blog.id === id)? blog = result: blog) );
-      })
-      .catch(error => {
-        showMessage({ message:'Could not add like to entry', type:'error' });
-      });
+    props.voteFor(blog);
+
+    // blogService
+    //   .update(blog)
+    //   .then(result => {
+    //     setBlogs( blogs.map(blog => (blog.id === id)? blog = result: blog) );
+    //   })
+    //   .catch(error => {
+    //     showMessage({ message:'Could not add like to entry', type:'error' });
+    //   });
   };
 
   const blogFormRef = React.createRef();
@@ -134,7 +133,7 @@ const App = (props) => {
     );
   };
 
-  const sortedByLikes = blogs.sort((a, b) => a.likes < b.likes);
+
 
   return (
     <div>
@@ -154,23 +153,33 @@ const App = (props) => {
            />
          </Togglable>
          <h2>blogs</h2>
-         {sortedByLikes.map(blog => <Blog
-                                      key={ blog.id }
-                                      blog={ blog }
-                                      currentUser={ user.username }
-                                      onLike={ handleLike }
-                                      onDelete={ handleDelete }/> )}
+         {props.sortedByLikes.map(blog => <Blog
+                                            key={ blog.id }
+                                            blog={ blog }
+                                            currentUser={ user.username }
+                                            onLike={ handleLike }
+                                            onDelete={ handleDelete }/> )}
        </div>
       }
     </div>
   );
 };
 
+const mapStateToProps = (state) => {
+  const sortedByLikes = state.blogs.sort((a, b) => a.likes < b.likes);
+  return {
+    sortedByLikes,
+    blogs: state.blogs
+  };
+};
+
 const mapDispatchToProps = {
-  setNotification
+  setNotification,
+  initialiseBlogs,
+  voteFor
 };
 
 export default connect(
-  null,
+  mapStateToProps,
   mapDispatchToProps
 )(App);

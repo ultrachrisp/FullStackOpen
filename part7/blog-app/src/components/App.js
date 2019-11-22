@@ -59,13 +59,6 @@ const App = (props) => {
     setUser(null);
   };
 
-  const handleBlogChange = (evt) => {
-    setBlog({
-      ...blog,
-      [evt.target.name]: evt.target.value
-    });
-  };
-
   const handleDelete = (evt) => {
 
     if(window.confirm('Remove blog'))
@@ -101,6 +94,7 @@ const App = (props) => {
   };
 
   const blogFormRef = React.createRef();
+  
   const addBlog = (evt) => {
     evt.preventDefault();
     blogFormRef.current.toggleVisibility();
@@ -109,16 +103,19 @@ const App = (props) => {
       content: blog,
     };
 
-    blogService
-      .create(blogObject)
-      .then(date => {
-        setBlogs(blogs.concat(date));
-        setBlog({ title:'',author:'', url:'' });
-        showMessage({ message: 'Blog added successfully', type:'status' });
-      })
-      .catch(error => {
-        showMessage({ message: 'Could not add the blog', type:'error' });
-      });
+    props.createBlog(blogObject);
+    showMessage({ message: 'Blog added successfully', type:'status' });
+
+    // blogService
+    //   .create(blogObject)
+    //   .then(date => {
+    //     setBlogs(blogs.concat(date));
+    //     setBlog({ title:'',author:'', url:'' });
+    //     showMessage({ message: 'Blog added successfully', type:'status' });
+    //   })
+    //   .catch(error => {
+    //     showMessage({ message: 'Could not add the blog', type:'error' });
+    //   });
   };
 
   const loginForm = () => {
@@ -149,7 +146,6 @@ const App = (props) => {
          <Togglable buttonLabel="new blog" ref={blogFormRef}>
            <BlogForm
              onSubmit={addBlog}
-             handleChange={handleBlogChange}
            />
          </Togglable>
          <h2>blogs</h2>
@@ -176,7 +172,8 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setNotification,
   initialiseBlogs,
-  voteFor
+  voteFor,
+  createBlog
 };
 
 export default connect(

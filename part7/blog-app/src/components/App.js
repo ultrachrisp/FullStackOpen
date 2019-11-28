@@ -18,7 +18,6 @@ const App = (props) => {
   const username = useField('text');
   const password = useField('password');
   const [user, setUser] = useState(null);
-  // const [blog, setBlog] = useState({ title:'', author:'', url:'', likes:0 });
 
   useEffect(() => {
     props.initialiseBlogs();

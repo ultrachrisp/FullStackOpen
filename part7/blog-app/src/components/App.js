@@ -11,7 +11,7 @@ import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
 import { setNotification } from '../reducers/notificationReducer';
-import { initialiseBlogs, voteFor } from '../reducers/blogsReducer';
+import { initialiseBlogs, removeBlog, voteFor } from '../reducers/blogsReducer';
 
 const App = (props) => {
   const [blogs, setBlogs] = useState([]);
@@ -61,19 +61,18 @@ const App = (props) => {
 
   const handleDelete = (evt) => {
 
-    if(window.confirm('Remove blog'))
-    {
-      const id = evt.target.name;
+    if(window.confirm('Remove blog')) {
+      props.removeBlog(evt.target.name);
 
-      blogService
-        .remove(id)
-        .then(result => {
-          setBlogs(blogs.filter(blog => blog.id !== id));
-          showMessage({ message: 'Message deleted', type:'update' });
-        })
-        .catch(error => {
-          showMessage({ message:'Could not delete entry', type:'error' });
-        });
+    //   blogService
+    //     .remove(id)
+    //     .then(result => {
+    //       setBlogs(blogs.filter(blog => blog.id !== id));
+    //       showMessage({ message: 'Message deleted', type:'update' });
+    //     })
+    //     .catch(error => {
+    //       showMessage({ message:'Could not delete entry', type:'error' });
+    //     });
     }
   };
 
@@ -82,15 +81,6 @@ const App = (props) => {
     blog.likes++;
 
     props.voteFor(blog);
-
-    // blogService
-    //   .update(blog)
-    //   .then(result => {
-    //     setBlogs( blogs.map(blog => (blog.id === id)? blog = result: blog) );
-    //   })
-    //   .catch(error => {
-    //     showMessage({ message:'Could not add like to entry', type:'error' });
-    //   });
   };
 
   const blogFormRef = React.createRef();
@@ -147,6 +137,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   setNotification,
   initialiseBlogs,
+  removeBlog,
   voteFor
 };
 

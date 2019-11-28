@@ -6,6 +6,8 @@ const blogsReducer = (state = [], action) => {
     return state.map(elem => (elem.id !== action.data.id)? elem: { ...elem, votes : action.data.votes });;
   case 'NEW_BLOG':
     return [...state, action.data];
+  case 'REMOVE_BLOG':
+    return state.filter(blog => blog.id !== action.data);
   case 'INIT_BLOGS':
     return action.data;
   default:
@@ -29,6 +31,16 @@ export const createBlog = (content) => {
     dispatch({
       type: 'NEW_BLOG',
       data: newBlog
+    });
+  };
+};
+
+export const removeBlog = (content) => {
+  return async dispatch => {
+    await blogService.remove(content);
+    dispatch({
+      type: 'REMOVE_BLOG',
+      data: content
     });
   };
 };

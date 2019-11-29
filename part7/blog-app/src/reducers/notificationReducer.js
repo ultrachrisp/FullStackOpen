@@ -1,5 +1,4 @@
 const notificationReducer = (state = { message:'', type:'' }, action) => {
-
   switch(action.type){
   case 'SHOW_NOTIFICATION':
     return {
@@ -13,8 +12,7 @@ const notificationReducer = (state = { message:'', type:'' }, action) => {
   }
 };
 
-export function setNotification(message, type, delay) {
-
+function setNotification(message, type, delay) {
   return async dispatch => {
     dispatch({
       type: 'SHOW_NOTIFICATION',
@@ -32,5 +30,8 @@ export function setNotification(message, type, delay) {
     });
   };
 }
+
+export function messageError(msg){ return setNotification(msg, 'error', 5000); }
+export function messageSuccess(msg){ return setNotification(msg, 'status', 5000); }
 
 export default notificationReducer;

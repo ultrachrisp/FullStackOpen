@@ -1,6 +1,5 @@
-// import { connect } from 'react-redux';
 import blogService from '../services/blogs';
-import { setNotification } from './notificationReducer';
+import { messageError, messageSuccess } from './notificationReducer';
 
 const blogsReducer = (state = [], action) => {
   switch(action.type){
@@ -21,49 +20,59 @@ export const initialiseBlogs = () => {
   return async dispatch => {
     try{
       const blogs = await blogService.getAll();
-      dispatch(setNotification('initial blogs loaded', 'status', 5000));
       dispatch({
         type: 'INIT_BLOGS',
         data: blogs
       });
     } catch(error) {
-      dispatch(setNotification('network error', 'error', 5000));
+      dispatch(messageError(`Could not connect to database: ${error}`));
     };
   };
 };
 
 export const createBlog = (content) => {
   return async dispatch => {
-    const newBlog = await blogService.create(content);
-    setNotification('new blog', 'status', 5000);
-    dispatch({
-      type: 'NEW_BLOG',
-      data: newBlog
-    });
+    try{
+      const newBlog = await blogService.create(content);
+      dispatch(messageSuccess(`Successfully created ${newBlog.content}`));
+      dispatch({
+        type: 'NEW_BLOG',
+        data: newBlog
+      });
+    } catch(error) {
+      dispatch(messageError(`Following error occured: ${error}`));
+    }
   };
 };
 
 export const removeBlog = (content) => {
   return async dispatch => {
-    await blogService.remove(content);
-    dispatch({
-      type: 'REMOVE_BLOG',
-      data: content
-    });
+    try{
+      await blogService.remove(content);
+      dispatch(messageSuccess(`Successfully removed ${content.content}`));
+      dispatch({
+        type: 'REMOVE_BLOG',
+        data: content
+      });
+    } catch(error) {
+      dispatch(messageError(`Following error occured: ${error}`));
+    }
   };
 };
 
 export const voteFor = (content) => {
   return async dispatch => {
-    const updatedBlog = await blogService.update(content);
-    dispatch(setNotification('voted for', 'status', 5000));
-    dispatch({
-      type: 'VOTE',
-      data: updatedBlog
-    });
+    try {
+      const updatedBlog = await blogService.update(content);
+      dispatch(messageSuccess(`Voted for ${updatedBlog.title}`));
+      dispatch({
+        type: 'VOTE',
+        data: updatedBlog
+      });
+    } catch(error) {
+      dispatch(messageError(`Following error occured: ${error}`));
+    }
   };
 };
 
-// const mapDispatchToProps = { setNotification };
-// export default connect(null, mapDispatchToProps)(blogsReducer);
 export default blogsReducer;

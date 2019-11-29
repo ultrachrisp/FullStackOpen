@@ -49,7 +49,7 @@ export const removeBlog = (content) => {
   return async dispatch => {
     try{
       await blogService.remove(content);
-      dispatch(messageSuccess(`Successfully removed ${content.content}`));
+      dispatch(messageSuccess(`Blog successfully removed`));
       dispatch({
         type: 'REMOVE_BLOG',
         data: content

@@ -5,7 +5,6 @@ import Blog from './Blog';
 import BlogForm from './BlogForm';
 import LoginForm from './LoginForm';
 import Notification from './Notification';
-import Togglable from './Togglable';
 import loginService from '../services/login';
 import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
@@ -74,8 +73,7 @@ const App = (props) => {
       <LoginForm
         username={ username }
         password={ password }
-        handleSubmit={ handleLogin }
-      />
+        handleSubmit={ handleLogin } />
     );
   };
 
@@ -83,7 +81,7 @@ const App = (props) => {
     return (
       <>
         <p>{user.name} logged in
-          <button onClick={handleLogout}>logout</button>
+          <button onClick={ handleLogout }>logout</button>
         </p>
         <BlogForm />
         <h2>blogs</h2>

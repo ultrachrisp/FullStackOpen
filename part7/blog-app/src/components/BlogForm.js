@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { connect } from 'react-redux';
 
-import { setNotification } from '../reducers/notificationReducer';
+// import { setNotification } from '../reducers/notificationReducer';
 import { createBlog } from '../reducers/blogsReducer';
 
 const useField = (type) => {
@@ -35,7 +35,7 @@ const BlogForm = (props) => {
     };
 
     props.createBlog(blogObject);
-    props.setNotification( 'Blog added successfully', 'status', 5000);
+    // props.setNotification( 'Blog added successfully', 'status', 5000);
 
     // blogService
     //   .create(blogObject)
@@ -72,7 +72,7 @@ const BlogForm = (props) => {
 };
 
 const mapDispatchToProps = {
-  setNotification,
+  // setNotification,
   createBlog
 };
 

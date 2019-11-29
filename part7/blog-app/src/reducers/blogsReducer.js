@@ -1,4 +1,6 @@
+// import { connect } from 'react-redux';
 import blogService from '../services/blogs';
+import { setNotification } from './notificationReducer';
 
 const blogsReducer = (state = [], action) => {
   switch(action.type){
@@ -17,17 +19,23 @@ const blogsReducer = (state = [], action) => {
 
 export const initialiseBlogs = () => {
   return async dispatch => {
-    const blogs = await blogService.getAll();
-    dispatch({
-      type: 'INIT_BLOGS',
-      data: blogs
-    });
+    try{
+      const blogs = await blogService.getAll();
+      dispatch(setNotification('initial blogs loaded', 'status', 5000));
+      dispatch({
+        type: 'INIT_BLOGS',
+        data: blogs
+      });
+    } catch(error) {
+      dispatch(setNotification('network error', 'error', 5000));
+    };
   };
 };
 
 export const createBlog = (content) => {
   return async dispatch => {
     const newBlog = await blogService.create(content);
+    setNotification('new blog', 'status', 5000);
     dispatch({
       type: 'NEW_BLOG',
       data: newBlog
@@ -48,6 +56,7 @@ export const removeBlog = (content) => {
 export const voteFor = (content) => {
   return async dispatch => {
     const updatedBlog = await blogService.update(content);
+    dispatch(setNotification('voted for', 'status', 5000));
     dispatch({
       type: 'VOTE',
       data: updatedBlog
@@ -55,4 +64,6 @@ export const voteFor = (content) => {
   };
 };
 
+// const mapDispatchToProps = { setNotification };
+// export default connect(null, mapDispatchToProps)(blogsReducer);
 export default blogsReducer;

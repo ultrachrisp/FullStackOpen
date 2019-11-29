@@ -10,11 +10,11 @@ import loginService from '../services/login';
 import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
-import { setNotification } from '../reducers/notificationReducer';
+// import { setNotification } from '../reducers/notificationReducer';
 import { initialiseBlogs, removeBlog, voteFor } from '../reducers/blogsReducer';
 
 const App = (props) => {
-  const [blogs, setBlogs] = useState([]);
+  // const [blogs, setBlogs] = useState([]);
   const username = useField('text');
   const password = useField('password');
   const [user, setUser] = useState(null);
@@ -24,7 +24,7 @@ const App = (props) => {
   },[]);
 
   const showMessage = ({ message, type }) => {
-    props.setNotification(message, type, 5000);
+    // props.setNotification(message, type, 5000);
   };
 
   useEffect(() => {
@@ -134,7 +134,7 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  setNotification,
+  // setNotification,
   initialiseBlogs,
   removeBlog,
   voteFor

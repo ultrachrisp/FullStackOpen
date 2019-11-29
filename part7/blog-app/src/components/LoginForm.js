@@ -1,26 +1,22 @@
 import React from 'react';
+import Togglable from './Togglable';
 import PropTypes from 'prop-types';
 
-const LoginForm =({
-  handleSubmit,
-  username,
-  password
-}) => {
-  const { reset:r1, ...usrnm } = username,
-        { reset:r2, ...psswrd } = password;
-
+const LoginForm =({ handleSubmit, username, password }) => {
   return (
-    <form onSubmit={handleSubmit} className="login">
-      <div>
-        Username
-        <input { ...usrnm } />
-      </div>
-      <div>
-        Password
-        <input { ...psswrd } />
-      </div>
-      <button type="submit">login</button>
-    </form>
+    <Togglable buttonLabel="log in">
+      <form onSubmit={handleSubmit} className="login">
+        <div>
+          Username
+          <input { ...username } />
+        </div>
+        <div>
+          Password
+          <input { ...password } />
+        </div>
+        <button type="submit">login</button>
+      </form>
+    </Togglable>
   );
 };
 

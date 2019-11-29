@@ -10,18 +10,16 @@ import loginService from '../services/login';
 import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
-// import { setNotification } from '../reducers/notificationReducer';
 import { initialiseBlogs, removeBlog, voteFor } from '../reducers/blogsReducer';
 
 const App = (props) => {
-  // const [blogs, setBlogs] = useState([]);
   const username = useField('text');
   const password = useField('password');
   const [user, setUser] = useState(null);
 
   useEffect(() => {
     props.initialiseBlogs();
-  },[]);
+  },[props]);
 
   const showMessage = ({ message, type }) => {
     // props.setNotification(message, type, 5000);
@@ -59,19 +57,8 @@ const App = (props) => {
   };
 
   const handleDelete = (evt) => {
-
     if(window.confirm('Remove blog')) {
       props.removeBlog(evt.target.name);
-
-    //   blogService
-    //     .remove(id)
-    //     .then(result => {
-    //       setBlogs(blogs.filter(blog => blog.id !== id));
-    //       showMessage({ message: 'Message deleted', type:'update' });
-    //     })
-    //     .catch(error => {
-    //       showMessage({ message:'Could not delete entry', type:'error' });
-    //     });
     }
   };
 
@@ -82,46 +69,41 @@ const App = (props) => {
     props.voteFor(blog);
   };
 
-  const blogFormRef = React.createRef();
-
   const loginForm = () => {
     return (
-      <Togglable buttonLabel="log in">
-        <LoginForm
-          username={ username }
-          password={ password }
-          handleSubmit={ handleLogin }
-        />
-      </Togglable>
+      <LoginForm
+        username={ username }
+        password={ password }
+        handleSubmit={ handleLogin }
+      />
     );
   };
 
-
+  const displayBlogs = () => {
+    return (
+      <>
+        <p>{user.name} logged in
+          <button onClick={handleLogout}>logout</button>
+        </p>
+        <BlogForm />
+        <h2>blogs</h2>
+        {props.sortedByLikes.map(blog =>
+                                 <Blog
+                                   key={ blog.id }
+                                   blog={ blog }
+                                   currentUser={ user.username }
+                                   onLike={ handleLike }
+                                   onDelete={ handleDelete }/> )}
+      </>
+    );
+  };
 
   return (
-    <div>
+    <>
       <h1>Blogs</h1>
-
       <Notification />
-
-      {user === null? loginForm() :
-       <div>
-         <p>{user.name} logged in
-           <button onClick={handleLogout}>logout</button>
-         </p>
-         <Togglable buttonLabel="new blog" ref={blogFormRef}>
-           <BlogForm />
-         </Togglable>
-         <h2>blogs</h2>
-         {props.sortedByLikes.map(blog => <Blog
-                                            key={ blog.id }
-                                            blog={ blog }
-                                            currentUser={ user.username }
-                                            onLike={ handleLike }
-                                            onDelete={ handleDelete }/> )}
-       </div>
-      }
-    </div>
+      { user === null? loginForm() : displayBlogs() }
+    </>
   );
 };
 
@@ -134,7 +116,6 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = {
-  // setNotification,
   initialiseBlogs,
   removeBlog,
   voteFor

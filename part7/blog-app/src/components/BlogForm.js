@@ -1,29 +1,18 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
-
-// import { setNotification } from '../reducers/notificationReducer';
 import { createBlog } from '../reducers/blogsReducer';
-
-const useField = (type) => {
-  const [value, setValue] = useState('');
-
-  const onChange = (evt) => setValue(evt.target.value);
-
-  return {
-    type,
-    value,
-    onChange
-  };
-};
+import { useField } from '../hooks/index';
+import Togglable from './Togglable';
 
 const BlogForm = (props) => {
   const url  = useField('text');
   const title = useField('text');
   const author = useField('text');
+  const blogFormRef = React.createRef();
 
   const addBlog = (evt) => {
     evt.preventDefault();
-    // blogFormRef.current.toggleVisibility();
+    blogFormRef.current.toggleVisibility();
 
     const blogObject = {
       content: {
@@ -35,22 +24,10 @@ const BlogForm = (props) => {
     };
 
     props.createBlog(blogObject);
-    // props.setNotification( 'Blog added successfully', 'status', 5000);
-
-    // blogService
-    //   .create(blogObject)
-    //   .then(date => {
-    //     setBlogs(blogs.concat(date));
-    //     setBlog({ title:'',author:'', url:'' });
-    //     showMessage({ message: 'Blog added successfully', type:'status' });
-    //   })
-    //   .catch(error => {
-    //     showMessage({ message: 'Could not add the blog', type:'error' });
-    //   });
   };
-  
+
   return (
-    <div>
+    <Togglable buttonLabel="new blog" ref={ blogFormRef }>
       <h2>Create a Blog Entry</h2>
       <form onSubmit={ addBlog }>
         <div>
@@ -67,12 +44,11 @@ const BlogForm = (props) => {
         </div>
         <button type="submit">save</button>
       </form>
-    </div>
+    </Togglable>
   );
 };
 
 const mapDispatchToProps = {
-  // setNotification,
   createBlog
 };
 

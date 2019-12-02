@@ -29,10 +29,11 @@ const blogs = [
   }
 ];
 
-let token = null;
-const setToken = newToken => {
-  token = `bearer ${newToken}`;
-};
+// const setToken = newToken => {
+//   const token = `bearer ${newToken}`;
+// };
+
+const setToken = () => {};
 
 const getAll = () => {
   return Promise.resolve(blogs);

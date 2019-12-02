@@ -1,12 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 
 import Blog from './Blog';
 import BlogForm from './BlogForm';
 import LoginForm from './LoginForm';
 import Notification from './Notification';
-import loginService from '../services/login';
-import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
 import { initialiseBlogs, removeBlog, voteFor } from '../reducers/blogsReducer';
@@ -15,41 +13,21 @@ import { logIn, logOut, checkLogin } from '../reducers/usersReducer';
 const App = (props) => {
   const username = useField('text');
   const password = useField('password');
-  // const [user, setUser] = useState(null);
 
   useEffect(() => {
     props.initialiseBlogs();
     props.checkLogin();
   },[]);
 
-  const showMessage = ({ message, type }) => {
-    // props.setNotification(message, type, 5000);
-  };
-
-  const handleLogin = async (evt) => {
+  const handleLogin = (evt) => {
     evt.preventDefault();
     props.logIn({
       username: username.value,
       password: password.value
     });
-    // try {
-    //   const user = await loginService.login({
-    //     username: username.value,
-    //     password: password.value });
-
-    //   window.localStorage.setItem('loggedBlogUser', JSON.stringify(user));
-    //   blogService.setToken(user.token);
-    //   setUser(user);
-    //   username.clear();
-    //   password.clear();
-    // }catch(exception){
-    //   showMessage({ messasge: 'Wrong credentials', type:'error' });
-    // }
   };
 
   const handleLogout = () => {
-    // window.localStorage.removeItem('loggedBlogUser');
-    // setUser(null);
     props.logOut();
   };
 

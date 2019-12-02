@@ -10,7 +10,7 @@ border: 3px solid ${props => props.type};
 
 const Notification = (props) => {
   const { message, type } = props.notifications;
-  
+
   if(!message){ return null; }
   const notificationColor = (type === 'status'? 'green' : 'red');
 

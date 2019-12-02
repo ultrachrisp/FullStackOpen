@@ -23,7 +23,7 @@ function setNotification(message, type, delay) {
     });
 
     await new Promise(resolve => setTimeout(resolve, delay));
-    
+
     dispatch({
       type: 'HIDE_NOTIFICATION',
       data: {}

@@ -4,7 +4,7 @@ import { messageError, messageSuccess } from './notificationReducer';
 const blogsReducer = (state = [], action) => {
   switch(action.type){
   case 'VOTE':
-    return state.map(elem => (elem.id !== action.data.id)? elem: { ...elem, votes : action.data.votes });;
+    return state.map(elem => (elem.id !== action.data.id)? elem: { ...elem, votes : action.data.votes });
   case 'NEW_BLOG':
     return [...state, action.data];
   case 'REMOVE_BLOG':
@@ -26,7 +26,7 @@ export const initialiseBlogs = () => {
       });
     } catch(error) {
       dispatch(messageError(`Could not connect to database: ${error}`));
-    };
+    }
   };
 };
 
@@ -49,7 +49,7 @@ export const removeBlog = (content) => {
   return async dispatch => {
     try{
       await blogService.remove(content);
-      dispatch(messageSuccess(`Blog successfully removed`));
+      dispatch(messageSuccess('Blog successfully removed'));
       dispatch({
         type: 'REMOVE_BLOG',
         data: content

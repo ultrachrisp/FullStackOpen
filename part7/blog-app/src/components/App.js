@@ -10,49 +10,47 @@ import blogService from '../services/blogs';
 import { useField } from '../hooks/index';
 
 import { initialiseBlogs, removeBlog, voteFor } from '../reducers/blogsReducer';
+import { logIn, logOut, checkLogin } from '../reducers/usersReducer';
 
 const App = (props) => {
   const username = useField('text');
   const password = useField('password');
-  const [user, setUser] = useState(null);
+  // const [user, setUser] = useState(null);
 
   useEffect(() => {
     props.initialiseBlogs();
-  },[props]);
+    props.checkLogin();
+  },[]);
 
   const showMessage = ({ message, type }) => {
     // props.setNotification(message, type, 5000);
   };
 
-  useEffect(() => {
-    const loggedUserJSON = window.localStorage.getItem('loggedBlogUser');
-    if(loggedUserJSON){
-      const user = JSON.parse(loggedUserJSON);
-      setUser(user);
-      blogService.setToken(user.token);
-    }
-  }, []);
-
   const handleLogin = async (evt) => {
     evt.preventDefault();
-    try {
-      const user = await loginService.login({
-        username: username.value,
-        password: password.value });
+    props.logIn({
+      username: username.value,
+      password: password.value
+    });
+    // try {
+    //   const user = await loginService.login({
+    //     username: username.value,
+    //     password: password.value });
 
-      window.localStorage.setItem('loggedBlogUser', JSON.stringify(user));
-      blogService.setToken(user.token);
-      setUser(user);
-      username.clear();
-      password.clear();
-    }catch(exception){
-      showMessage({ messasge: 'Wrong credentials', type:'error' });
-    }
+    //   window.localStorage.setItem('loggedBlogUser', JSON.stringify(user));
+    //   blogService.setToken(user.token);
+    //   setUser(user);
+    //   username.clear();
+    //   password.clear();
+    // }catch(exception){
+    //   showMessage({ messasge: 'Wrong credentials', type:'error' });
+    // }
   };
 
   const handleLogout = () => {
-    window.localStorage.removeItem('loggedBlogUser');
-    setUser(null);
+    // window.localStorage.removeItem('loggedBlogUser');
+    // setUser(null);
+    props.logOut();
   };
 
   const handleDelete = (evt) => {
@@ -80,7 +78,7 @@ const App = (props) => {
   const displayBlogs = () => {
     return (
       <>
-        <p>{user.name} logged in
+        <p>{props.user.name} logged in
           <button onClick={ handleLogout }>logout</button>
         </p>
         <BlogForm />
@@ -89,7 +87,7 @@ const App = (props) => {
                                  <Blog
                                    key={ blog.id }
                                    blog={ blog }
-                                   currentUser={ user.username }
+                                   currentUser={ props.user.username }
                                    onLike={ handleLike }
                                    onDelete={ handleDelete }/> )}
       </>
@@ -100,7 +98,7 @@ const App = (props) => {
     <>
       <h1>Blogs</h1>
       <Notification />
-      { user === null? loginForm() : displayBlogs() }
+      { props.user === null? loginForm() : displayBlogs() }
     </>
   );
 };
@@ -109,14 +107,18 @@ const mapStateToProps = (state) => {
   const sortedByLikes = state.blogs.sort((a, b) => a.likes < b.likes);
   return {
     sortedByLikes,
-    blogs: state.blogs
+    blogs: state.blogs,
+    user: state.user
   };
 };
 
 const mapDispatchToProps = {
   initialiseBlogs,
   removeBlog,
-  voteFor
+  voteFor,
+  logIn,
+  logOut,
+  checkLogin
 };
 
 export default connect(

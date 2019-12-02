@@ -24,15 +24,21 @@ const BlogForm = (props) => {
     };
 
     props.createBlog(blogObject);
+    title.onSubmit();
+    author.onSubmit();
+    url.onSubmit();
   };
 
+  const removeProperty = prop => ({ [prop]: _, ...rest }) => rest;
+  const removeReset = removeProperty('reset');
+  
   return (
     <Togglable buttonLabel="new blog" ref={ blogFormRef }>
       <h2>Create a Blog Entry</h2>
       <form onSubmit={ addBlog }>
         <div>
           Title
-          <input { ...title }/>
+          <input { ...title } />
         </div>
         <div>
           Author

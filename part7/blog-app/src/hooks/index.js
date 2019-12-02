@@ -4,7 +4,7 @@ export const useField = (type) => {
   const [value, setValue] = useState('');
 
   const onChange = (evt) => setValue(evt.target.value);
-  const reset = () => setValue('');
+  const onSubmit = () => setValue('');
 
-  return { type, value, onChange, reset };
+  return { type, value, onChange, onSubmit };
 };

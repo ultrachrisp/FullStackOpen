@@ -25,6 +25,8 @@ const App = (props) => {
       username: username.value,
       password: password.value
     });
+    username.onSubmit();
+    password.onSubmit();
   };
 
   const handleLogout = () => {

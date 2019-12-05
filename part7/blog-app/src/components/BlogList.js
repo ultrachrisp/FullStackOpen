@@ -3,35 +3,13 @@ import { connect } from 'react-redux';
 
 import Blog from './Blog';
 import BlogForm from './BlogForm';
-import LoginForm from './LoginForm';
-import Notification from './Notification';
-import { useField } from '../hooks/index';
 
 import { initialiseBlogs, removeBlog, voteFor } from '../reducers/blogsReducer';
-import { logIn, logOut, checkLogin } from '../reducers/usersReducer';
 
 const BlogList = (props) => {
-  const username = useField('text');
-  const password = useField('password');
-
   useEffect(() => {
     props.initialiseBlogs();
-    props.checkLogin();
   },[]);
-
-  const handleLogin = (evt) => {
-    evt.preventDefault();
-    props.logIn({
-      username: username.value,
-      password: password.value
-    });
-    username.onSubmit();
-    password.onSubmit();
-  };
-
-  const handleLogout = () => {
-    props.logOut();
-  };
 
   const handleDelete = (evt) => {
     if(window.confirm('Remove blog')) {
@@ -46,39 +24,20 @@ const BlogList = (props) => {
     props.voteFor(blog);
   };
 
-  const loginForm = () => {
-    return (
-      <LoginForm
-        username={ username }
-        password={ password }
-        handleSubmit={ handleLogin } />
-    );
-  };
-
-  const displayBlogs = () => {
-    return (
-      <>
-        <p>{props.user.name} logged in
-          <button onClick={ handleLogout }>logout</button>
-        </p>
-        <BlogForm />
-        <h2>blogs</h2>
-        {props.sortedByLikes.map(blog =>
-                                 <Blog
-                                   key={ blog.id }
-                                   blog={ blog }
-                                   currentUser={ props.user.username }
-                                   onLike={ handleLike }
-                                   onDelete={ handleDelete }/> )}
-      </>
-    );
-  };
-
   return (
     <>
-      <h1>Blogs</h1>
-      <Notification />
-      { props.user === null? loginForm() : displayBlogs() }
+      <p>{props.user.name} logged in
+        <button>logout</button>
+      </p>
+      <BlogForm />
+      <h2>blogs</h2>
+      {props.sortedByLikes.map(blog =>
+                               <Blog
+                                   key={ blog.id }
+                                 blog={ blog }
+                                 currentUser={ props.user.username }
+                                 onLike={ handleLike }
+                                 onDelete={ handleDelete }/> )}
     </>
   );
 };
@@ -95,10 +54,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = {
   initialiseBlogs,
   removeBlog,
-  voteFor,
-  logIn,
-  logOut,
-  checkLogin
+  voteFor
 };
 
 export default connect(

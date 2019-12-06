@@ -6,13 +6,41 @@ const UserList = (props) => {
   useEffect(() => {
     props.initialiseBlogs();
   },[]);
-  
-  const uniqueUsers = props.blogs && props.blogs.reduce((unique, item) => unique.includes(item.user[0].id)? unique: [...unique, item.user[0].id], []);
-  
+
+  const uniqueUsers = Object.create(null);
+  props.blogs.forEach(item => {
+    if(uniqueUsers[item.user[0].id]){
+      uniqueUsers[item.user[0].id].count = uniqueUsers[item.user[0].id].count + 1;
+    } else {
+      uniqueUsers[item.user[0].id] = {
+        id: item.user[0].id,
+        name: item.user[0].username,
+        count: 1
+      };
+    }
+    return uniqueUsers[item.user[0].id];
+  });  
   return (
     <>
       <h2>Users</h2>
-      { uniqueUsers.map(() => console.log(uniqueUsers) )}
+      <table>
+        <thead>
+          <tr>
+            <th></th>
+            <th>blogs created</th>
+          </tr>
+        </thead>
+        <tbody>
+          { Object.keys(uniqueUsers).map((item => 
+<React.Fragment key={ item }>
+              <tr>
+                <td>{ uniqueUsers[item].name }</td>
+                <td>{ uniqueUsers[item].count }</td> 
+              </tr>
+</React.Fragment>
+          )) }
+        </tbody>
+      </table>
     </>
   );
 };

@@ -26,14 +26,11 @@ const BlogList = (props) => {
 
   return (
     <>
-      <p>{props.user.name} logged in
-        <button>logout</button>
-      </p>
       <BlogForm />
       <h2>blogs</h2>
       {props.sortedByLikes.map(blog =>
                                <Blog
-                                   key={ blog.id }
+                                 key={ blog.id }
                                  blog={ blog }
                                  currentUser={ props.user.username }
                                  onLike={ handleLike }

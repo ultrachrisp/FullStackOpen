@@ -38,7 +38,16 @@ const App = (props) => {
     );
   };
 
-  const content = props.user === null? loginForm(): <BlogList />;
+  const content = props.user === null?
+        loginForm():
+        (
+          <>
+            <p>{ props.user.name } logged in
+              <button onClick={ handleLogout }>logout</button>
+            </p>
+            <BlogList />
+          </>
+        );
   
   return (
     <>

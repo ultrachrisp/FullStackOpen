@@ -28,9 +28,6 @@ const BlogForm = (props) => {
     author.onSubmit();
     url.onSubmit();
   };
-
-  const removeProperty = prop => ({ [prop]: _, ...rest }) => rest;
-  const removeReset = removeProperty('reset');
   
   return (
     <Togglable buttonLabel="new blog" ref={ blogFormRef }>

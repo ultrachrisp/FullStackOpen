@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
 
 import BlogList from './BlogList';
+import UserList from './UserList';
 import Notification from './Notification';
 import LoginForm from './LoginForm';
 import { useField } from '../hooks/index';
@@ -38,15 +40,23 @@ const App = (props) => {
     );
   };
 
+  const UserStatus = () => {
+    return (
+      <p>
+        { props.user.name } logged in
+        <button onClick={ handleLogout }>logout</button>
+      </p>
+    );
+  };
+
   const content = props.user === null?
         loginForm():
         (
-          <>
-            <p>{ props.user.name } logged in
-              <button onClick={ handleLogout }>logout</button>
-            </p>
-            <BlogList />
-          </>
+          <Router>
+          <UserStatus />
+            <Route exact path="/" render={() => <BlogList /> }/>
+            <Route exact path="/users" render={() => <UserList /> }/>
+          </Router>
         );
   
   return (

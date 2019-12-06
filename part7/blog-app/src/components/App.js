@@ -61,7 +61,7 @@ const App = (props) => {
   
   return (
     <>
-      <h1>Blogs</h1>
+      <h1>Keep track of useful blogs</h1>
       <Notification />
       { content }
     </>

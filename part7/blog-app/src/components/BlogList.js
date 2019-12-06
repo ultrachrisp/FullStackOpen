@@ -27,7 +27,7 @@ const BlogList = (props) => {
   return (
     <>
       <BlogForm />
-      <h2>blogs</h2>
+      <h2>Blogs</h2>
       {props.sortedByLikes.map(blog =>
                                <Blog
                                  key={ blog.id }

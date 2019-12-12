@@ -8,21 +8,6 @@ const UserList = (props) => {
     props.initialiseBlogs();
   },[]);
 
-  const uniqueUsers = Object.create(null);
-  props.blogs.forEach(item => {
-    if(uniqueUsers[item.user[0].id]){
-      uniqueUsers[item.user[0].id].count = uniqueUsers[item.user[0].id].count + 1;
-    } else {
-      uniqueUsers[item.user[0].id] = {
-        id: item.user[0].id,
-        name: item.user[0].username,
-        count: 1
-      };
-    }
-    return uniqueUsers[item.user[0].id];
-  });
-
-
   return (
     <>
       <h2>Users</h2>
@@ -34,17 +19,17 @@ const UserList = (props) => {
           </tr>
         </thead>
         <tbody>
-          { Object.keys(uniqueUsers).map(
+          { Object.keys(props.uniqueUsers).map(
             item => 
               <React.Fragment key={ item }>
                 <tr>
                   <td>
-                    <Link to={ `users/${uniqueUsers[item].id}` }>
-                      { uniqueUsers[item].name }
+                    <Link to={ `users/${props.uniqueUsers[item].id}` }>
+                      { props.uniqueUsers[item].name }
                     </Link>
                   </td>
                   <td>
-                    { uniqueUsers[item].count }
+                    { props.uniqueUsers[item].count }
                   </td> 
                 </tr>
               </React.Fragment>
@@ -55,9 +40,25 @@ const UserList = (props) => {
   );
 };
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
+  const uniqueUsers = Object.create(null);
+  
+  state.blogs.forEach(item => {
+    const user = item.user[0];
+    if(uniqueUsers[user.id]){
+      uniqueUsers[user.id].count = uniqueUsers[user.id].count + 1;
+    } else {
+      uniqueUsers[user.id] = {
+        id: user.id,
+        name: user.username,
+        count: 1
+      };
+    }
+  });
+  
   return {
-    blogs: state.blogs
+    blogs: state.blogs,
+    uniqueUsers
   };
 };
 const mapDispatchToProps = {

@@ -1,10 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { useParams } from 'react-router-dom';
 
 const User = (props) => {
-  let { id } = useParams();
-  console.log(id);
   return (
     <>
       <div>Some stuffs</div>
@@ -12,8 +9,9 @@ const User = (props) => {
   );
 };
 const mapStateToProps = (state, ownProps) => {
+  const userBlogs = state.blogs.filter(blog => console.log(blog));
   return {
-    blogs: state.blogs
+    blogs: userBlogs
   };
 };
 

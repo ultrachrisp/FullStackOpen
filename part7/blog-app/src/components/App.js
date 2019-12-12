@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import BlogList from './BlogList';
 import User from './User';
@@ -54,7 +54,7 @@ const App = (props) => {
         loginForm():
         (
           <Router>
-          <UserStatus />
+            <UserStatus />
             <Route exact path="/" render={() => <BlogList /> }/>
             <Route exact path="/users" render={() => <UserList /> }/>
             <Route exact path="/users/:id" render={() => <User/> }/>

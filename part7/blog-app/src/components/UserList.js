@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { initialiseBlogs } from '../reducers/blogsReducer';
+import { Link } from 'react-router-dom';
 
 const UserList = (props) => {
   useEffect(() => {
@@ -33,15 +34,21 @@ const UserList = (props) => {
           </tr>
         </thead>
         <tbody>
-          { Object.keys(uniqueUsers).map((item => 
-                                          <React.Fragment key={ item }>
-                                            { console.log(uniqueUsers[item].id) }
-              <tr>
-                <td>{ uniqueUsers[item].name }</td>
-                <td>{ uniqueUsers[item].count }</td> 
-              </tr>
-</React.Fragment>
-          )) }
+          { Object.keys(uniqueUsers).map(
+            item => 
+              <React.Fragment key={ item }>
+                <tr>
+                  <td>
+                    <Link to={ `users/${uniqueUsers[item].id}` }>
+                      { uniqueUsers[item].name }
+                    </Link>
+                  </td>
+                  <td>
+                    { uniqueUsers[item].count }
+                  </td> 
+                </tr>
+              </React.Fragment>
+          )}
         </tbody>
       </table>
     </>

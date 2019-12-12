@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route, Link, Redirect, withRouter } from 'react-router-dom';
 
 import BlogList from './BlogList';
+import User from './User';
 import UserList from './UserList';
 import Notification from './Notification';
 import LoginForm from './LoginForm';
@@ -56,6 +57,7 @@ const App = (props) => {
           <UserStatus />
             <Route exact path="/" render={() => <BlogList /> }/>
             <Route exact path="/users" render={() => <UserList /> }/>
+            <Route exact path="/users/:id" render={() => <User/> }/>
           </Router>
         );
   

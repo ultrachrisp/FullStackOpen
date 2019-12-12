@@ -19,7 +19,9 @@ const UserList = (props) => {
       };
     }
     return uniqueUsers[item.user[0].id];
-  });  
+  });
+
+
   return (
     <>
       <h2>Users</h2>
@@ -32,7 +34,8 @@ const UserList = (props) => {
         </thead>
         <tbody>
           { Object.keys(uniqueUsers).map((item => 
-<React.Fragment key={ item }>
+                                          <React.Fragment key={ item }>
+                                            { console.log(uniqueUsers[item].id) }
               <tr>
                 <td>{ uniqueUsers[item].name }</td>
                 <td>{ uniqueUsers[item].count }</td> 
@@ -45,7 +48,7 @@ const UserList = (props) => {
   );
 };
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state, ownProps) => {
   return {
     blogs: state.blogs
   };

@@ -17,7 +17,7 @@ const User = (props) => {
       </>
     );
 };
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
   return {
     blogs: state.blogs
   };

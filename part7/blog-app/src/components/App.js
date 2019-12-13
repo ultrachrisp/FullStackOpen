@@ -59,8 +59,8 @@ const App = (props) => {
             <UserStatus />
             <Route exact path="/" render={() => <BlogList /> }/>
             <Route exact path="/users" render={() => <UserList /> }/>
-            <Route exact path="/users/:id" render={() => <User/> }/>
-            <Route exact path="/blogs/:id" render={() => <Blog/> }/>
+            <Route path="/users/:id" render={() => <User/> }/>
+            <Route path="/blogs/:id" render={() => <Blog/> }/>
           </Router>
         );
   

@@ -2,11 +2,13 @@ import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import BlogList from './BlogList';
+
 import User from './User';
+import Blog from './Blog';
 import UserList from './UserList';
-import Notification from './Notification';
+import BlogList from './BlogList';
 import LoginForm from './LoginForm';
+import Notification from './Notification';
 import { useField } from '../hooks/index';
 import { logIn, logOut, checkLogin } from '../reducers/usersReducer';
 
@@ -58,6 +60,7 @@ const App = (props) => {
             <Route exact path="/" render={() => <BlogList /> }/>
             <Route exact path="/users" render={() => <UserList /> }/>
             <Route exact path="/users/:id" render={() => <User/> }/>
+            <Route exact path="/blogs/:id" render={() => <Blog/> }/>
           </Router>
         );
   

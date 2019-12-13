@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 
 import Blog from './Blog';
 import BlogForm from './BlogForm';
@@ -28,13 +29,12 @@ const BlogList = (props) => {
     <>
       <BlogForm />
       <h2>Blogs</h2>
-      {props.sortedByLikes.map(blog =>
-                               <Blog
-                                 key={ blog.id }
-                                 blog={ blog }
-                                 currentUser={ props.user.username }
-                                 onLike={ handleLike }
-                                 onDelete={ handleDelete }/> )}
+      {props.sortedByLikes.map(blog => 
+        <div>
+          <Link to={`blogs/${blog.id}`}>{ blog.title }</Link>
+        </div> 
+                              )}
+
     </>
   );
 };

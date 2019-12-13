@@ -1,4 +1,5 @@
 import React, { useState }from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 
 const StyledBlog = styled.div`
@@ -9,18 +10,15 @@ padding: 10px;
 `;
 
 const Blog = ({ blog, onLike, onDelete, currentUser }) => {
-  const [visible, setVisible] = useState(false);
+  // const [visible, setVisible] = useState(false);
 
-  const toggleVisible = { display: visible ? '' : 'none' },
-        toggleVisibility = () => { setVisible(!visible); },
-        { title, author, url, likes, user } = blog;
+  // const toggleVisible = { display: visible ? '' : 'none' },
+  //       toggleVisibility = () => { setVisible(!visible); },
+  const { title, author, url, likes, user } = blog;
 
   return (
     <StyledBlog className="blog">
-      <div className="toggleSwitch" onClick={() => toggleVisibility() }>
-        { title } by { author }
-      </div>
-      <div style={ toggleVisible }>
+      <div>
         <a href={ url }>{ url }</a>
         <div>{likes}<button name={blog.id} onClick={onLike}>Like</button></div>
         <div>Added by { user[0].username }</div>

@@ -17,7 +17,7 @@ padding: 10px;
 const BlogList = (props) => {
   useEffect(() => {
     props.initialiseBlogs();
-  },[props.blogs]);
+  },[]);
 
   return (
     <>

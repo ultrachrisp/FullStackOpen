@@ -1,11 +1,27 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import Togglable from './Togglable';
-import PropTypes from 'prop-types';
 
-const LoginForm =({ handleSubmit, username, password }) => {
+import { useField } from '../hooks/index';
+import { logIn } from '../reducers/usersReducer';
+
+const LoginForm =(props) => {
+  const username = useField('text');
+  const password = useField('password');
+
+  const handleLogin = (evt) => {
+    evt.preventDefault();
+    props.logIn({
+      username: username.value,
+      password: password.value
+    });
+    username.onSubmit();
+    password.onSubmit();
+  };
+  
   return (
     <Togglable buttonLabel="log in">
-      <form onSubmit={handleSubmit} className="login">
+      <form onSubmit={ handleLogin } className="login">
         <div>
           Username
           <input { ...username } />
@@ -20,10 +36,11 @@ const LoginForm =({ handleSubmit, username, password }) => {
   );
 };
 
-LoginForm.propTypes = {
-  handleSubmit: PropTypes.func.isRequired,
-  username: PropTypes.object.isRequired,
-  password: PropTypes.object.isRequired
+const mapDispatchToProps = {
+  logIn
 };
 
-export default LoginForm;
+export default connect(
+  null,
+  mapDispatchToProps
+)(LoginForm);

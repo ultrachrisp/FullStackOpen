@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import User from './User';
 import Blog from './Blog';
+import Notification from './Notification';
 import UserList from './UserList';
 import BlogList from './BlogList';
 import LoginForm from './LoginForm';
@@ -65,6 +66,7 @@ const Menu = (props) => {
         (
           <Router>
             <Menu />
+            <Notification />
             <Route exact path="/" render={() => <BlogList /> }/>
             <Route exact path="/users" render={() => <UserList /> }/>
             <Route path="/users/:id" render={() => <User/> }/>

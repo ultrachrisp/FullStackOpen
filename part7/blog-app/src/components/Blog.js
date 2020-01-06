@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { useParams, withRouter } from 'react-router-dom';
 
-import styled from 'styled-components';
+// import styled from 'styled-components';
 import { removeBlog, voteFor } from '../reducers/blogsReducer';
 
 const Blog = (props) => {

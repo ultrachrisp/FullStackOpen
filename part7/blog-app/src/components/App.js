@@ -8,7 +8,6 @@ const App = (props) => {
   return (
     <>
       <Menu />
-      <h1>Keep track of useful blogs</h1>
       <Notification />
     </>
   );

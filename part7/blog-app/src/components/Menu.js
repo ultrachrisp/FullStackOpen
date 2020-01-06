@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { connect } from 'react-redux';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
 import User from './User';
 import Blog from './Blog';
@@ -50,11 +50,21 @@ const Menu = (props) => {
     );
   };
 
+  const Menu = () => {
+    return(
+      <>
+        <Link to="/">Blogs</Link>
+        <Link to="/users">Users</Link>
+        <UserStatus />
+      </>
+    );
+  };
+
   const content = props.user === null?
         loginForm():
         (
           <Router>
-            <UserStatus />
+            <Menu />
             <Route exact path="/" render={() => <BlogList /> }/>
             <Route exact path="/users" render={() => <UserList /> }/>
             <Route path="/users/:id" render={() => <User/> }/>
@@ -63,7 +73,9 @@ const Menu = (props) => {
         );
   
   return(
-    <div>Menu</div>
+    <>
+      {content}
+    </>
   );
 };
 
